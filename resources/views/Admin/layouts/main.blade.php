@@ -162,8 +162,9 @@
 
             <!-- FOOTER -->
             <footer id="pageFooter">
-                <span>© 2026 <strong>Pro-talk</strong> — A Sun Pharma Division. All rights reserved.</span>
-                <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Disclaimer</a></span>
+                <span>© {{ date('Y') }} <strong>VPCI</strong> — A VPCI Digital Learning Division. All rights
+                    reserved.</span>
+                {{-- <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Disclaimer</a></span> --}}
             </footer>
 
         </div><!-- /mainWrapper -->

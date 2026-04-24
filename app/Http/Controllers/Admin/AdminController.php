@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Category;
 use App\Models\Requests;
 use App\Models\User;
+use App\Models\WebCastActivity;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,9 +46,10 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        $totalRequests = 0;
-        $employeecount = User::count();
-        return view('Admin.dashboard', compact('totalRequests', 'employeecount'));
+        $usersCount = User::count();
+        $categoryCount = Category::count();
+        $webCastActivityCount = WebCastActivity::count();
+        return view('Admin.dashboard', compact('usersCount', 'categoryCount', 'webCastActivityCount'));
     }
 
     // list
