@@ -74,6 +74,15 @@
                     <i class="fa fa-gauge nav-icon"></i>
                     <span class="nav-text">WebCast Connect</span>
                 </a>
+                <!-- WebCast Resources -->
+                <a id="nev-menu-item" @class([
+                    'nav-item-link',
+                    'active' => request()->routeIs('admin.wc_resource.*'),
+                ]) href="{{ route('admin.wc_resource.index') }}"
+                    data-title="Dashboard" data-subitems="[]">
+                    <i class="fa fa-gauge nav-icon"></i>
+                    <span class="nav-text">Resources</span>
+                </a>
 
                 {{-- <!-- Dropdown Trigger -->
                 <a class="nav-item-link dropdownManu" href="#" data-target="usersDropdown">

@@ -22,6 +22,7 @@
                 allowClear: false,
                 width: "resolve",
                 dropdownParent: $("body"),
+                width: "100%",
             };
 
             if (ajaxUrl) {
@@ -90,6 +91,7 @@
                     $("#" + name).val(formatted); // ✅ this goes to backend
                     console.log($("#" + name).val(), name);
                 });
+            $("#datepicker").datepicker("setDate", "now");
         });
     }
 

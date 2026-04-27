@@ -65,4 +65,5 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-<!-- routes,category create/index view(css remove&inline js remove) wcconnect(admin view) admin layout main ,css admin,formcomponent css ,js update,controller update,migration file config file update-->
+<!-- rourte & main file update -->
+<!-- webcast Resource controller & model create -->

@@ -37,14 +37,14 @@ class AuthController extends Controller
                 'mobile' => 'required|digits:10|unique:users,mobile',
                 'password' => [
                     'required',
-                    'min:8',
-                    'regex:/[A-Z]/',
-                    'regex:/[a-z]/',
-                    'regex:/[0-9]/',
-                    'regex:/[@$!%*#?&]/',
-                    'confirmed',
+                    // 'min:8',
+                    // 'regex:/[A-Z]/',
+                    // 'regex:/[a-z]/',
+                    // 'regex:/[0-9]/',
+                    // 'regex:/[@$!%*#?&]/',
+                    // 'confirmed',
                 ],
-                'password_confirmation' => 'required|same:password'
+                // 'password_confirmation' => 'required|same:password'
             ], [
                 'email.required' => 'Email is required.',
                 'email.unique' => 'Email already exists.',

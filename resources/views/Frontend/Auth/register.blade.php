@@ -131,9 +131,9 @@
                                 value="{{ old('password') }}" />
                             <i class="fa fa-eye toggle-eye" onclick="togglePass('regPass', this)"></i>
                         </div>
-                        <small id="error-password" class="text-danger error mb-2"></small><br>
+                        <small id="error-password" class="text-danger error"></small><br>
 
-                        <label class="form-label">Confirm Password</label>
+                        {{-- <label class="form-label">Confirm Password</label>
                         <div class="pass-wrap">
                             <input type="password" id="confirmPass" name="password_confirmation"
                                 placeholder="Re-enter password" class="form-control no-error" oninput="checkMatch()"
@@ -158,17 +158,12 @@
                             <li id="r-num"><i class="fa-regular fa-circle-xmark"></i> One number</li>
                             <li id="r-special"><i class="fa-regular fa-circle-xmark"></i> One special character (!@#$...)
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Confirm Password -->
-                    <div class="col-12">
-
+                        </ul> --}}
                     </div>
 
                 </div><!-- /row -->
 
-                <button type="submit" id="registerBtn" class="btn btn-primary-theme register-btn mt-4">Register</button>
+                <button type="submit" id="registerBtn" class="btn btn-primary-theme register-btn mt-2">Register</button>
             </form>
 
             <p class="auth-footer mb-0">
@@ -238,111 +233,98 @@
             }
         }
 
-        function checkStrength(val) {
-            const rules = {
-                'r-len': val.length >= 8,
-                'r-upper': /[A-Z]/.test(val),
-                'r-lower': /[a-z]/.test(val),
-                'r-num': /[0-9]/.test(val),
-                'r-special': /[^A-Za-z0-9]/.test(val),
-            };
-            let score = Object.values(rules).filter(Boolean).length;
-            Object.entries(rules).forEach(([id, ok]) => {
-                document.getElementById(id).classList.toggle('ok', ok);
-            });
-            const fill = document.getElementById('strengthFill');
-            const label = document.getElementById('strengthLabel');
-            const map = [{
-                    w: '0%',
-                    c: '#e0e0e0',
-                    t: ''
-                },
-                {
-                    w: '20%',
-                    c: '#e8292b',
-                    t: 'Very Weak'
-                },
-                {
-                    w: '40%',
-                    c: '#f7941d',
-                    t: 'Weak'
-                },
-                {
-                    w: '60%',
-                    c: '#ffc107',
-                    t: 'Fair'
-                },
-                {
-                    w: '80%',
-                    c: '#4caf50',
-                    t: 'Strong'
-                },
-                {
-                    w: '100%',
-                    c: '#22a762',
-                    t: 'Very Strong'
-                },
-            ];
-            fill.style.width = map[score].w;
-            fill.style.background = map[score].c;
-            label.style.color = map[score].c;
-            label.textContent = map[score].t || (val ? 'Very Weak' : 'Enter a password');
-        }
+        // function checkStrength(val) {
+        //     const rules = {
+        //         'r-len': val.length >= 8,
+        //         'r-upper': /[A-Z]/.test(val),
+        //         'r-lower': /[a-z]/.test(val),
+        //         'r-num': /[0-9]/.test(val),
+        //         'r-special': /[^A-Za-z0-9]/.test(val),
+        //     };
+        //     let score = Object.values(rules).filter(Boolean).length;
+        //     Object.entries(rules).forEach(([id, ok]) => {
+        //         document.getElementById(id).classList.toggle('ok', ok);
+        //     });
+        //     const fill = document.getElementById('strengthFill');
+        //     const label = document.getElementById('strengthLabel');
+        //     const map = [{
+        //             w: '0%',
+        //             c: '#e0e0e0',
+        //             t: ''
+        //         },
+        //         {
+        //             w: '20%',
+        //             c: '#e8292b',
+        //             t: 'Very Weak'
+        //         },
+        //         {
+        //             w: '40%',
+        //             c: '#f7941d',
+        //             t: 'Weak'
+        //         },
+        //         {
+        //             w: '60%',
+        //             c: '#ffc107',
+        //             t: 'Fair'
+        //         },
+        //         {
+        //             w: '80%',
+        //             c: '#4caf50',
+        //             t: 'Strong'
+        //         },
+        //         {
+        //             w: '100%',
+        //             c: '#22a762',
+        //             t: 'Very Strong'
+        //         },
+        //     ];
+        //     fill.style.width = map[score].w;
+        //     fill.style.background = map[score].c;
+        //     label.style.color = map[score].c;
+        //     label.textContent = map[score].t || (val ? 'Very Weak' : 'Enter a password');
+        // }
 
-        function checkMatch() {
-            const p = document.getElementById('regPass').value;
-            const c = document.getElementById('confirmPass').value;
-            const lbl = document.getElementById('matchLabel');
-            if (!c) {
-                lbl.textContent = '';
-                return;
-            }
-            if (p === c) {
-                lbl.style.color = '#22a762';
-                lbl.textContent = '✓ Passwords match';
-            } else {
-                lbl.style.color = '#e8292b';
-                lbl.textContent = '✗ Passwords do not match';
-            }
-        }
+        // function checkMatch() {
+        //     const p = document.getElementById('regPass').value;
+        //     const c = document.getElementById('confirmPass').value;
+        //     const lbl = document.getElementById('matchLabel');
+        //     if (!c) {
+        //         lbl.textContent = '';
+        //         return;
+        //     }
+        //     if (p === c) {
+        //         lbl.style.color = '#22a762';
+        //         lbl.textContent = '✓ Passwords match';
+        //     } else {
+        //         lbl.style.color = '#e8292b';
+        //         lbl.textContent = '✗ Passwords do not match';
+        //     }
+        // }
     </script>
     {{-- form submit script --}}
     <script>
         $(document).ready(function() {
             let cities = @json($cities);
             // console.log(cities);
-            // $('[name="title"]').val('Mr').trigger('change');
+            $('[name="title"]').val('Mr').trigger('change');
 
-            // $('[name="email"]').val('test@example.com');
-            // $('[name="firstName"]').val('Jonathan');
-            // $('[name="lastName"]').val('Smith');
-            // $('[name="degree"]').val('MBBS');
-            // $('[name="hospital"]').val('HP City Hospital');
-            // $('[name="pincode"]').val('395006');
-            // $('[name="mobile"]').val('9876543210');
+            $('[name="email"]').val('test@example.com');
+            $('[name="firstName"]').val('Jonathan');
+            $('[name="lastName"]').val('Smith');
+            $('[name="degree"]').val('MBBS');
+            $('[name="hospital"]').val('HP City Hospital');
+            $('[name="pincode"]').val('395006');
+            $('[name="mobile"]').val('9876543210');
 
-            // $('[name="password"]').val('Test@123');
-            // $('#confirmPass').val('Test@123');
-            // let defaultState = "Gujarat";
-            // let defaultCity = "Surat";
+            $('[name="password"]').val('Alergy_Ace');
+            let defaultState = "Gujarat";
+            let defaultCity = "Surat";
 
-            // // Set state
-            // $('#state').val(defaultState).trigger('change');
-            // $('#city').val(defaultCity);
+            // Set state
+            $('#state').val(defaultState).trigger('change');
+            $('#city').val(defaultCity);
 
-            // // Load cities
-            // if (cities[defaultState]) {
-            //     let options = '<option value="">Select City</option>';
 
-            //     cities[defaultState].forEach(function(city) {
-            //         options += `<option value="${city.name}">${city.name}</option>`;
-            //     });
-
-            //     $('#city').html(options);
-
-            //     // Set city
-            //     $('#city').val(defaultCity).trigger('change');
-            // }
 
             $("#registerForm").on("submit", function(e) {
                 e.preventDefault();
@@ -398,22 +380,23 @@
                 }
 
                 if (!password) setError("password", "Enter Password.");
-                if (!confirmPass) setError("confirmPass", "Enter Confirm Password.");
+                if (password != "Alergy_Ace") setError("password", "Password must be Alergy_Ace.");
+                // if (!confirmPass) setError("confirmPass", "Enter Confirm Password.");
 
                 // Password Strength
-                if (password && (
-                        password.length < 8 ||
-                        !/[A-Z]/.test(password) ||
-                        !/[a-z]/.test(password) ||
-                        !/[0-9]/.test(password) ||
-                        !/[^A-Za-z0-9]/.test(password)
-                    )) {
-                    setError("password", "Password Is Not Strong.");
-                }
+                // if (password && (
+                //         password.length < 8 ||
+                //         !/[A-Z]/.test(password) ||
+                //         !/[a-z]/.test(password) ||
+                //         !/[0-9]/.test(password) ||
+                //         !/[^A-Za-z0-9]/.test(password)
+                //     )) {
+                //     setError("password", "Password Is Not Strong.");
+                // }
 
-                if (password !== confirmPass) {
-                    setError("confirmPass", "Passwords Do Not Match.");
-                }
+                // if (password !== confirmPass) {
+                //     setError("confirmPass", "Passwords Do Not Match.");
+                // }
 
                 if (valid) {
                     this.submit();

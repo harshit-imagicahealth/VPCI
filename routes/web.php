@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\WcConnectController;
+use App\Http\Controllers\Admin\WcResourceController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ Route::post('register', [AuthController::class, 'registerPost'])->name('register
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('live-session', function () {
+        return view('Frontend.live-session');
+    })->name('live-session');
     // Route::prefix('dr-spectra')->name('dr_spectra.')->group(function () {
     // Route::get('dashboard', [DRHomeController::class, 'index'])->name('dashboard');
     // Route::get('data', [DRHomeController::class, 'meetingData'])->name('dashboard.data');
@@ -58,6 +62,15 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{id}', [WcConnectController::class, 'edit'])->name('edit');
             Route::put('update/{id}', [WcConnectController::class, 'update'])->name('update');
             Route::delete('delete/{id}', [WcConnectController::class, 'destroy'])->name('delete');
+        });
+        Route::prefix('webcast-resource')->name('admin.wc_resource.')->group(function () {
+            Route::get('/', [WcResourceController::class, 'index'])->name('index');
+            Route::get('get-data', [WcResourceController::class, 'getData'])->name('list.data');
+            Route::get('create', [WcResourceController::class, 'create'])->name('create');
+            Route::post('store', [WcResourceController::class, 'store'])->name('store');
+            Route::get('edit/{id}', [WcResourceController::class, 'edit'])->name('edit');
+            Route::put('update/{id}', [WcResourceController::class, 'update'])->name('update');
+            Route::delete('delete/{id}', [WcResourceController::class, 'destroy'])->name('delete');
         });
 
         // Category Routes

@@ -120,7 +120,7 @@ class WcConnectController extends Controller
         $data = $request->validate($this->rules(true));
 
         /* Thumbnail */
-        if ($request->hasFile('thumbnail')) {
+        if ($request->hasFile('thumbnail') && $webcast->thumbnail != null) {
             Storage::disk('public')->delete($webcast->thumbnail);
             $data['thumbnail'] = $request->file('thumbnail')
                 ->store('webcasts/thumbnails', 'public');

@@ -47,6 +47,14 @@
                                 About Us
                             </a>
                         </li>
+                        @auth('web')
+                            <li class="nav-item">
+                                <a href="{{ route('live-session') }}" @class(['nav-link', 'active' => request()->routeIs('live-session')])>
+                                    <i class="fa fa-broadcast-tower me-2" style="color:var(--primaryThemeColor)"></i>Live
+                                    Session
+                                </a>
+                            </li>
+                        @endauth
                     </ul>
 
                     <div class="d-flex align-items-center gap-2">
