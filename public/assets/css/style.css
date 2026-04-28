@@ -26,6 +26,7 @@
     --lightBg: #eef1f8;
     --inputBg: #edf0f7;
     --borderRadius: 8px;
+    --borderRadiuslg: 12px;
     --font: "Poppins", sans-serif;
 }
 * {
@@ -734,5 +735,522 @@ li::marker {
     }
     .footer-bottom p {
         font-size: 14px !important;
+    }
+}
+
+/* web connect live session page css */
+.module-section {
+    /* background: white; */
+    margin-inline: 20px;
+    /* border: 1px solid #e0e0e0; */
+    /* border-radius: var(--borderRadiuslg); */
+}
+
+.explore-modules-heading {
+    color: var(--primaryThemeColor);
+}
+
+.swiper {
+    /* padding-bottom: 40px; */
+}
+.swiper-wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center; /* ensures visual centering */
+}
+.mySwiper {
+    margin: 0 auto;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--primaryThemeColor);
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--primaryThemeColor);
+}
+
+.module-card .content {
+    flex: 1;
+}
+.module-card-heading {
+    color: var(--primaryThemeColor);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.swiper-wrapper {
+    align-items: stretch;
+}
+
+.swiper-slide {
+    height: auto !important;
+    display: flex;
+}
+
+.module-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    min-height: 230px;
+    max-height: 400px;
+}
+
+.module-card .card-body {
+    /* display: flex;
+    justify-content: space-between;
+    align-items: flex-start; */
+    padding: 1rem 1.25rem;
+    /* flex: 1; */
+    /* ← pushes footer to bottom */
+}
+
+.module-card .image img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.module-card .card-footer {
+    border: none;
+    background: transparent;
+    padding: 0 1rem 1rem;
+}
+
+.module-card .card-footer button {
+    width: 100%;
+}
+
+/* Active card underline indicator */
+.module-card.active-card {
+}
+
+/* swiper btn css */
+.swiper-button-next,
+.swiper-button-prev {
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+/* Remove default arrow */
+.swiper-button-next::after,
+.swiper-button-prev::after,
+.swiper-button-next-image::after,
+.swiper-button-prev-image::after {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: #f8f9fa;
+    border-color: #bbb;
+}
+
+/* Position adjustment (like your screenshot) */
+.swiper-button-prev::before,
+.swiper-button-next::before,
+.swiper-button-prev-image::before,
+.swiper-button-next-image::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 14px;
+    color: #333;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after,
+.swiper-button-prev-image::after,
+.swiper-button-next-image::after {
+    display: none;
+}
+
+.swiper-button-prev::before,
+.swiper-button-prev-image::before {
+    content: "\f104";
+    color: var(--primaryThemeColor);
+}
+
+.swiper-button-next::before,
+.swiper-button-next-image::before {
+    content: "\f105";
+    color: var(--primaryThemeColor);
+}
+.swiper-button-prev,
+.swiper-button-next {
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* hover */
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    background: #f8f9fa;
+}
+
+/* wrapper */
+.module-section .position-relative {
+    position: relative;
+}
+
+/* nav wrapper */
+.custom-nav .swiper-button-prev,
+.custom-nav .swiper-button-next {
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    color: #333;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+/* LEFT button */
+.custom-nav .swiper-button-prev {
+    left: -25px;
+}
+
+/* RIGHT button */
+.custom-nav .swiper-button-next {
+    right: -25px;
+}
+
+/* optional hover */
+.custom-nav .swiper-button-prev:hover,
+.custom-nav .swiper-button-next:hover {
+    background: #f8f9fa;
+}
+
+/* Module Card Typography & Spacing */
+
+.module-card .card-body {
+    padding: 1rem 1.1rem 0.75rem;
+    /* column-gap: 0.75rem;
+    row-gap: 0rem; */
+}
+
+.module-card .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-right: 10px;
+}
+
+/* Badge */
+.module-card .badge {
+    font-size: clamp(10px, 1.2vw, 12px);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 3px 8px;
+    align-self: flex-start;
+}
+
+/* "MODULE 2" label */
+.module-card .module-card-heading {
+    display: block;
+    font-size: clamp(10px, 1.2vw, 11px);
+    font-weight: 500;
+    color: #6c757d;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+}
+
+/* Card title */
+.module-card h5 {
+    font-size: clamp(13px, 1.5vw, 15px);
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.35;
+    margin-bottom: 0;
+}
+
+/* Doctor name */
+.module-card .small {
+    font-size: clamp(12px, 1.4vw, 14px);
+    font-weight: 400;
+    color: #444;
+    margin-bottom: 0;
+}
+
+.module-card .small i {
+    font-size: clamp(12px, 1.4vw, 14px);
+    /* margin-right: 4px; */
+    color: #6c757d;
+}
+
+/* Date & time */
+.module-card small.text-muted {
+    font-size: clamp(10px, 1.4vw, 13px);
+    font-weight: 400;
+    color: #888 !important;
+}
+
+.module-card small.text-muted i {
+    font-size: clamp(10px, 1.4vw, 13px);
+    /* margin-right: 4px; */
+}
+
+/* Thumbnail image */
+.module-card .image img {
+    width: clamp(75px, 8vw, 100px);
+    height: clamp(75px, 8vw, 100px);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* Footer button */
+.module-card .card-footer {
+    padding: 0 1rem 1rem;
+    border: none;
+    background: transparent;
+}
+
+.module-card .card-footer .btn {
+    font-size: clamp(12px, 1.3vw, 14px);
+    font-weight: 400;
+    padding: 0.45rem 1rem;
+    letter-spacing: 0.01em;
+}
+/* header image slider css */
+.slider-card {
+    position: relative;
+    /* border-radius: 12px; */
+    overflow: hidden;
+}
+.imageSlider .swiper-pagination-bullet-active {
+    background: white;
+}
+
+.slider-card img {
+    height: 500px;
+    object-fit: cover;
+}
+
+/* Overlay container */
+.slider-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 5rem;
+    display: flex;
+    gap: 10px;
+}
+
+/* Dropdown */
+.custom-dropdown {
+    position: relative;
+}
+
+.dropdown-box {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    min-width: 160px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    display: none;
+    z-index: 99;
+}
+
+.dropdown-box a {
+    display: block;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-box a:hover {
+    background: #f5f5f5;
+}
+
+/* Buttons styling */
+.join-btn {
+    font-size: 14px;
+    padding: 8px 14px;
+}
+
+.explore-btn {
+    font-size: 14px;
+    padding: 8px 14px;
+}
+.imageSlider .swiper-wrapper .swiper-slide .slider-card,
+.imageSlider .swiper-wrapper .swiper-slide .slider-card img {
+    width: 100% !important;
+}
+.imageSlider-wrapper .custom-nav .swiper-button-prev-image,
+.imageSlider-wrapper .custom-nav .swiper-button-next-image {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); */
+    color: var(--primaryThemeColor);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    margin-inline: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.custom-nav .swiper-button-prev-image,
+.custom-nav .swiper-button-next-image {
+    width: 36px;
+    height: 36px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    color: #333;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+/* LEFT button */
+.custom-nav .swiper-button-prev-image {
+    left: -25px;
+}
+
+/* RIGHT button */
+.custom-nav .swiper-button-next-image {
+    right: -25px;
+}
+
+/* optional hover */
+.custom-nav .swiper-button-prev-image:hover,
+.custom-nav .swiper-button-next-image:hover {
+    background: #f8f9fa;
+}
+/* top feature bar after the header image slider */
+.top-feature-bar {
+    background: #f8fafc;
+    padding: 15px 0;
+    margin: 20px;
+    border: 1px solid #f0e8ff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.feature-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Item */
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Icon */
+.feature-item .icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* Colors */
+.icon.blue {
+    background: #e7f0ff;
+    color: #2f6fed;
+}
+
+.icon.green {
+    background: #e6f7ec;
+    color: #1ca45c;
+}
+
+.icon.purple {
+    background: #f0e8ff;
+    color: #7a4cff;
+}
+
+.icon.orange {
+    background: #fff1e6;
+    color: #ff7a00;
+}
+
+/* Text */
+.feature-item h6 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.feature-item small {
+    color: #6c757d;
+    font-size: 12px;
+}
+
+/* Center button */
+.center-btn {
+    flex: 1;
+    justify-content: center;
+}
+
+.center-btn .btn {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 600;
+}
+.custom-dropdown:hover .fa-chevron-down {
+    transform: rotate(180deg);
+    transition: 0.5s;
+}
+@media (max-width: 425px) {
+    .slider-overlay {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        /* justify-content: center; */
+        left: 0;
+    }
+    .swiper-pagination {
+        display: none;
+    }
+    .join-btn,
+    .custom-dropdown .explore-btn {
+        margin-inline: 10px;
+        width: 100%;
     }
 }

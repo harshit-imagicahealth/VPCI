@@ -7,6 +7,7 @@
         <title>@yield('title', 'Pro-talk | Let`s Talk Nutrition')</title>
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/css/swiper.css') }}" rel="stylesheet" />
         {{-- icon not work thats why cdn add --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
@@ -184,6 +185,7 @@
         <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+        <script src="{{ asset('assets/js/swiper-bundle.min.js') }}"></script>
         <script src="{{ asset('assets/js/script.js') }}"></script>
         @if (session()->has('success'))
             <script>
