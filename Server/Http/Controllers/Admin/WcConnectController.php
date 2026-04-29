@@ -163,36 +163,36 @@ class WcConnectController extends Controller
         }
         $data = $request->validate($this->rules(true));
 
- /* 1. Update Thumbnail */
-    if ($request->hasFile('thumbnail')) {
-        // Delete old thumbnail if it exists
-        if ($webcast->thumbnail) {
-            Storage::disk('public')->delete($webcast->thumbnail);
+        /* 1. Update Thumbnail */
+        if ($request->hasFile('thumbnail')) {
+            // Delete old thumbnail if it exists
+            if ($webcast->thumbnail) {
+                Storage::disk('public')->delete($webcast->thumbnail);
+            }
+
+            // Upload new thumbnail using helper
+            $data['thumbnail'] = $this->uploadImage(
+                $request->file('thumbnail'),
+                'ACE/webcasts/thumbnails'
+            );
         }
 
-        // Upload new thumbnail using helper
-        $data['thumbnail'] = $this->uploadImage(
-            $request->file('thumbnail'), 
-            'webcasts/thumbnails'
-        );
-    }
+        /* 2. Update Slider Images */
+        if ($request->hasFile('slider_images')) {
+            // Delete old slider images from storage
+            $oldImages = json_decode($webcast->slider_images, true) ?? [];
+            foreach ($oldImages as $oldPath) {
+                Storage::disk('public')->delete($oldPath);
+            }
 
-    /* 2. Update Slider Images */
-    if ($request->hasFile('slider_images')) {
-        // Delete old slider images from storage
-        $oldImages = json_decode($webcast->slider_images, true) ?? [];
-        foreach ($oldImages as $oldPath) {
-            Storage::disk('public')->delete($oldPath);
-        }
+            // Upload new images using helper
+            $newSliderPaths = [];
+            foreach ($request->file('slider_images') as $img) {
+                $newSliderPaths[] = $this->uploadImage($img, 'ACE/webcasts/sliders');
+            }
 
-        // Upload new images using helper
-        $newSliderPaths = [];
-        foreach ($request->file('slider_images') as $img) {
-            $newSliderPaths[] = $this->uploadImage($img, 'webcasts/sliders');
+            $data['slider_images'] = json_encode($newSliderPaths);
         }
-        
-        $data['slider_images'] = json_encode($newSliderPaths);
-    }
 
         $webcast->update($data);
 

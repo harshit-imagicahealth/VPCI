@@ -11,33 +11,32 @@
                 <div class="swiper-wrapper">
                     @isset($liveSession)
                         @php
-                            // $images = isset($liveSession->slider_images)
-                            //     ? json_decode($liveSession->slider_images ?? '[]')
-                            //     : [];
+                            $images = isset($liveSession->slider_images)
+                                ? json_decode($liveSession->slider_images ?? '[]')
+                                : [];
                             // {{ config('filesystems.disks.spaces.cdn_url') . '/ACE/webcasts/sliders/' . $image }}
-                            $images = ['test.png', 'test1.png'];
                         @endphp
                         @foreach ($images as $image)
                             <!-- Slide -->
                             <div class="swiper-slide">
                                 <div class="slider-card">
-                                    <img class="img-fluid" src="{{ asset('public/assets/images/') . '/' . $image }}"
+                                    <img class="img-fluid"
+                                        src="{{ config('filesystems.disks.spaces.cdn_url') . '/ACE/webcasts/sliders/' . $image }}"
                                         alt="slide">
 
                                     <!-- Overlay Buttons -->
                                     <div class="slider-overlay">
                                         <a class="text-decoration-none"
                                             href="{{ route('webinars.videoStream', ['webcast_id' => encrypt($liveSession->id)]) }}">
-                                            <button class="btn btn-danger join-btn">
+                                            <button type="button" class="btn btn-danger join-btn">
                                                 <i class="fa fa-video me-1"></i> Join Live Session
                                             </button>
                                         </a>
 
                                         <div class="custom-dropdown">
-                                            <button class="btn btn-light explore-btn">
+                                            <div type="button" class="btn btn-light explore-btn">
                                                 Explore <i class="fa fa-chevron-down ms-1"></i>
-                                            </button>
-
+                                            </div>
                                         </div>
                                     </div>
 
@@ -56,65 +55,51 @@
                 <div class="swiper-button-next-image"></div>
             </div>
         </div>
-        <div class="dropdown-box">
-            <a href="#">Option 1</a>
-            <a href="#">Option 2</a>
-        </div>
     </section>
     <section id="headerExploreFeatureTab" class="top-feature-bar d-none">
         <div class="container-fluid">
             <div class="feature-wrapper mx-3">
+                @php
+                    $feature_items = config('wc_connect.feature_items');
+                @endphp
+                @isset($liveSession)
+                    @foreach ($feature_items as $item)
+                        <a class="text-decoration-none text-primary"
+                            href="{{ $item['pdf']
+                                ? route('webinars.pdfStream', [
+                                    'webcast_id_pdf' => encrypt($liveSession->id),
+                                    'type' => strtolower(str_replace(' ', '-', $item['heading'])),
+                                ])
+                                : ($item['video']
+                                    ? route('webinars.videoStream', [
+                                        'webcast_id' => encrypt($liveSession->id),
+                                        'teaser' => true,
+                                    ])
+                                    : '#') }}">
+                            <div class="feature-item">
 
-                <!-- Item -->
-                <div class="feature-item">
-                    <div class="icon blue">
-                        <i class="fa fa-book-open"></i>
-                    </div>
-                    <div class="text">
-                        <h6>Pre-read</h6>
-                        <small>Read before the session</small>
-                    </div>
-                </div>
+                                @if ($item['type'] === 'button')
+                                    <!-- BUTTON -->
+                                    <button class="btn btn-outline-primary">
+                                        <i class="fa {{ $item['icon'] }} me-2"></i>
+                                        {{ $item['heading'] }}
+                                    </button>
+                                @else
+                                    <!-- ICON ITEM -->
+                                    <div class="icon {{ $item['colorClass'] }}">
+                                        <i class="fa {{ $item['icon'] }}"></i>
+                                    </div>
 
-                <!-- Item -->
-                <div class="feature-item">
-                    <div class="icon green">
-                        <i class="fa fa-play"></i>
-                    </div>
-                    <div class="text">
-                        <h6>Teaser</h6>
-                        <small>Watch session teaser</small>
-                    </div>
-                </div>
+                                    <div class="text">
+                                        <h6>{{ $item['heading'] }}</h6>
+                                        <small>{{ $item['subHeading'] }}</small>
+                                    </div>
+                                @endif
 
-                <!-- Button -->
-                <div class="feature-item">
-                    <button class="btn btn-outline-primary">
-                        <i class="fa fa-calendar me-2"></i> VIEW AGENDA
-                    </button>
-                </div>
-
-                {{-- <!-- Item -->
-        <div class="feature-item">
-            <div class="icon purple">
-                <i class="fa fa-clipboard-check"></i>
-            </div>
-            <div class="text">
-                <h6>Assessment</h6>
-                <small>Take the assessment</small>
-            </div>
-        </div> --}}
-
-                <!-- Item -->
-                <div class="feature-item">
-                    <div class="icon orange">
-                        <i class="fa fa-file-alt"></i>
-                    </div>
-                    <div class="text">
-                        <h6>Summary</h6>
-                        <small>View session summary</small>
-                    </div>
-                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                @endisset
 
             </div>
         </div>
@@ -144,7 +129,7 @@
                                 : null;
                         @endphp
                         <!-- Slide 1 — LIVE NOW -->
-                        <div class="swiper-slide">
+                        <div class="swiper-slide" data-url="{{ route('live-session', ['id' => encrypt($module->id)]) }}">
                             <div class="module-card active-card">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start gap-1">
@@ -251,36 +236,71 @@
                 }
             });
         });
-        // Custom dropdown
+        // Custom dropdown on hover
+        // let dropdown = $("#headerExploreFeatureTab");
+
+        // $(".explore-btn").hover(
+        //     function() {
+        //         dropdown.stop(true, true)
+        //             .removeClass("d-none")
+        //             .addClass("d-flex")
+        //             .hide()
+        //             .slideDown(200);
+        //     },
+        //     function() {
+        //         setTimeout(() => {
+        //             if (!dropdown.is(":hover")) {
+        //                 dropdown.stop(true, true).slideUp(200, function() {
+        //                     dropdown.removeClass("d-flex").addClass("d-none");
+        //                 });
+        //             }
+        //         }, 200);
+        //     }
+        // );
+
+        // // keep open when hovering dropdown
+        // dropdown.hover(
+        //     function() {},
+        //     function() {
+        //         dropdown.stop(true, true).slideUp(200, function() {
+        //             dropdown.removeClass("d-flex").addClass("d-none");
+        //         });
+        //     }
+        // );
+
         let dropdown = $("#headerExploreFeatureTab");
 
-        $(".explore-btn").hover(
-            function() {
-                dropdown.stop(true, true)
-                    .removeClass("d-none")
-                    .addClass("d-flex")
-                    .hide()
-                    .slideDown(200);
-            },
-            function() {
-                setTimeout(() => {
-                    if (!dropdown.is(":hover")) {
-                        dropdown.stop(true, true).slideUp(200, function() {
-                            dropdown.removeClass("d-flex").addClass("d-none");
-                        });
-                    }
-                }, 200);
-            }
-        );
+        $(document).on("click", ".explore-btn", function(e) {
+            e.stopPropagation();
 
-        // keep open when hovering dropdown
-        dropdown.hover(
-            function() {},
-            function() {
+            let btn = $(this); // ✅ correct
+
+            if (dropdown.is(":visible")) {
                 dropdown.stop(true, true).slideUp(200, function() {
                     dropdown.removeClass("d-flex").addClass("d-none");
                 });
+
+                btn.removeClass("active"); //  reset arrow
+            } else {
+                dropdown.removeClass("d-none")
+                    .addClass("d-flex")
+                    .hide()
+                    .slideDown(200);
+
+                btn.addClass("active"); //  rotate arrow
             }
-        );
+        });
+
+        // Close when clicking outside
+        $(document).on("click", function() {
+            dropdown.stop(true, true).slideUp(200, function() {
+                dropdown.removeClass("d-flex").addClass("d-none");
+            });
+        });
+
+        $('.module-section .swiper-slide').click(function() {
+            let url = $(this).data('url');
+            window.location.href = url;
+        });
     </script>
 @endpush

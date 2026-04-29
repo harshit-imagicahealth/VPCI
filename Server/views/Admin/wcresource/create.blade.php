@@ -342,15 +342,15 @@
                 }
             });
 
-            //  Required buttons check
-            let requiredButtons = ['pre_read', 'teaser', 'view_agenda', 'summary'];
+            // //  Required buttons check
+            // let requiredButtons = ['pre_read', 'teaser', 'view_agenda', 'summary'];
 
-            let missing = requiredButtons.filter(btn => !selected.includes(btn));
+            // let missing = requiredButtons.filter(btn => !selected.includes(btn));
 
-            if (missing.length > 0) {
-                isValid = false;
-                errors.push("All default buttons must be selected (except Custom)");
-            }
+            // if (missing.length > 0) {
+            //     isValid = false;
+            //     errors.push("All default buttons must be selected (except Custom)");
+            // }
 
             //  Show errors in top box
             if (!isValid) {

@@ -72,9 +72,9 @@
 
                     {{-- Date --}}
                     <x-form.datepicker name="webcast_date" placeholder="DD/MM/YYYY" label="Date" :value="old(
-        'webcast_date', 
-        isset($webcast) ? date('Y-m-d', strtotime($webcast->webcast_date)) : date('Y-m-d')
-    )"
+                        'webcast_date',
+                        isset($webcast) ? date('Y-m-d', strtotime($webcast->webcast_date)) : date('Y-m-d'),
+                    )"
                         required col-class="col-md-6" />
 
                     {{-- Time row: Hour / Minute / AM-PM --}}
@@ -124,7 +124,8 @@
                     <div class="row">
                         @if (isset($webcast) && $webcast->thumbnail)
                             <div class="col-md-6 mt-2">
-                                <img class="img-preview-thumb" src="{{ 'https://ihapp.blr1.cdn.digitaloceanspaces.com/ACE/https://ihapp.blr1.cdn.digitaloceanspaces.com/ACE/webcasts/thumbnails/' . $webcast->thumbnail }}"
+                                <img class="img-preview-thumb"
+                                    src="{{ 'https://ihapp.blr1.cdn.digitaloceanspaces.com/ACE/webcasts/thumbnails/' . $webcast->thumbnail }}"
                                     alt="Thumbnail">
                             </div>
                         @endif
@@ -133,7 +134,8 @@
 
                                 @foreach (json_decode($webcast->slider_images, true) as $img)
                                     <div class="position-relative">
-                                        <img class="img-preview-slider" src="{{ 'https://ihapp.blr1.cdn.digitaloceanspaces.com/ACE/webcasts/sliders/' . $img }}"
+                                        <img class="img-preview-slider"
+                                            src="{{ 'https://ihapp.blr1.cdn.digitaloceanspaces.com/ACE/webcasts/sliders/' . $img }}"
                                             alt="Slider Image">
                                     </div>
                                 @endforeach

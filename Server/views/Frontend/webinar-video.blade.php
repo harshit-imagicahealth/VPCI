@@ -18,25 +18,33 @@
                         {{ $data['content_title'] ? $data['content_title'] . ' : ' . $data['activity_name'] : '' }}
                     </div>
                 </div>
-                {{-- @dd($data['resources']); --}}
                 @php
-                    $vimeoUrl = isset($data['resources'])
-                        ? collect($data['resources'])->where('activity_type', 'vimeo_url')->first()->pdf_url
-                        : '';
+                    $vimeoUrl = null;
+                    $collection = collect($data['resources']);
+                    if (isset($data['resources'])) {
+                        $vimeoUrl = isset($teaser)
+                            ? $collection->where('activity_type', 'teaser')->first()?->pdf_url
+                            : $collection->where('activity_type', 'vimeo_url')->first()?->pdf_url ?? '';
+                    }
                 @endphp
-                {{-- @dd($vimeoUrl); --}}
                 {{-- VIDEO EMBED --}}
-                <div class="video-wrapper">
-                    <div style="padding:56.25% 0 0 0; position:relative;">
-                        <iframe
-                            src="{{ isset($vimeoUrl) ? $vimeoUrl : 'https://player.vimeo.com/video/954655325?badge=0&autopause=0&player_id=0&app_id=58479' }}"
-                            frameborder="0"
-                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            style="position:absolute;top:0;left:0;width:100%;height:100%;"
-                            title="Basics of Allergy - Live Session">
-                        </iframe>
-                    </div>
+                <div class="video-wrapper vh-50">
+                    @if (isset($vimeoUrl))
+                        <div style="padding:56.25% 0 0 0; position:relative;">
+                            <iframe id="vimeoPlayer" src="{{ isset($vimeoUrl) ? $vimeoUrl : '' }}" frameborder="0"
+                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                                title="Basics of Allergy - Live Session">
+                            </iframe>
+                        </div>
+                    @else
+                        <div class="p-5">
+                            <div class="d-flex justify-content-center align-items-center no-video-found text-primary">No
+                                video found
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 {{-- ASK A QUESTION BUTTON --}}
@@ -44,11 +52,11 @@
 
                     <!-- QUESTION FORM -->
                     <div id="questionBox" class="question-box d-none mt-3">
-                        <form id="questionForm" class="d-flex align-items-center">
+                        <form id="questionForm" class="d-flex align-items-center gap-3">
                             {{-- <div class="position-relative"> --}}
 
                             <input type="text" id="questionInput" placeholder="Type your question..."
-                                class="form-control" autocomplete="off">
+                                class="form-control">
 
                             <!-- AUTOCOMPLETE LIST -->
                             <div id="autocompleteList" class="autocomplete-box"></div>
@@ -80,53 +88,33 @@
 @push('scripts')
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
-        // Show form on button click
-        // $("#showQuestionBox").click(function() {
-        //     $("#questionBox").slideToggle().toggleClass("d-none");
-        // });
+        const trackUrl = @json(route('track-video-complete'));
+        var iframe = document.getElementById('vimeoPlayer');
+        var player = new Vimeo.Player(iframe);
 
-        // Sample suggestions (replace with API later)
-        let suggestions = [
-            "What is allergy?",
-            "How to treat asthma?",
-            "What are symptoms of allergy?",
-            "Best medicine for sinus?",
-            "How to prevent asthma attacks?"
-        ];
+        player.on('ended', function() {
+            console.log('Video completed');
 
-        // Autocomplete
-        $("#questionInput").on("keyup", function() {
-            let value = $(this).val().toLowerCase();
-            let list = $("#autocompleteList");
-
-            list.empty();
-
-            if (value === "") {
-                list.hide();
-                return;
-            }
-
-            let filtered = suggestions.filter(item =>
-                item.toLowerCase().includes(value)
-            );
-
-            if (filtered.length === 0) {
-                list.hide();
-                return;
-            }
-
-            filtered.forEach(item => {
-                list.append(`<div>${item}</div>`);
+            // Call backend(AJAX)
+            fetch(trackUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    video_type: 'teaser',
+                    web_cast_id: @json($data['id'])
+                })
             });
-
-            list.show();
+        });
+    </script>
+    <script>
+        // Show form on button click
+        $("#showQuestionBox").click(function() {
+            $("#questionBox").slideToggle().toggleClass("d-none");
         });
 
-        // Click suggestion
-        $(document).on("click", "#autocompleteList div", function() {
-            $("#questionInput").val($(this).text());
-            $("#autocompleteList").hide();
-        });
 
         // Submit form
         // $("#questionForm").submit(function(e) {

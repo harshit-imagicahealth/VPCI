@@ -56,12 +56,14 @@
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <img src="{{ asset('public/assets/images/icon/Contactus.svg') }}" alt="">
+                    <a class="text-decoration-none" href="{{ route('about-us') }}">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <img src="{{ asset('public/assets/images/icon/Contactus.svg') }}" alt="">
+                            </div>
+                            <span>About Us</span>
                         </div>
-                        <span>Contact Us</span>
-                    </div>
+                    </a>
                 </div>
 
             </div>

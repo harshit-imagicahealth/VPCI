@@ -42,7 +42,7 @@
                     'nav-item-link',
                     'active' => request()->routeIs('admin.dashboard'),
                 ]) href="{{ route('admin.dashboard') }}"
-                    data-title="Dashboard" data-subitems="[]">
+                    data-title="Dashboard">
                     <i class="fa fa-gauge nav-icon"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>
@@ -52,7 +52,7 @@
                     'nav-item-link',
                     'active' => request()->routeIs('admin.users.*'),
                 ]) href="{{ route('admin.users.index') }}"
-                    data-title="Dashboard" data-subitems="[]">
+                    data-title="Dashboard">
                     <i class="fa fa-gauge nav-icon"></i>
                     <span class="nav-text">Users</span>
                 </a>
@@ -60,8 +60,7 @@
                 <!-- <a id="nev-menu-item" @class([
                     'nav-item-link',
                     'active' => request()->routeIs('admin.category.*'),
-                ]) href="{{ route('admin.category.index') }}"
-                    data-title="Dashboard" data-subitems="[]">
+                ]) href="{{ route('admin.category.index') }}" data-title="Dashboard">
                     <i class="fa fa-gauge nav-icon"></i>
                     <span class="nav-text">Category</span>
                 </a> -->
@@ -70,7 +69,7 @@
                     'nav-item-link',
                     'active' => request()->routeIs('admin.wc_connect.*'),
                 ]) href="{{ route('admin.wc_connect.index') }}"
-                    data-title="Dashboard" data-subitems="[]">
+                    data-title="Dashboard">
                     <i class="fa fa-gauge nav-icon"></i>
                     <span class="nav-text">WebCast Connect</span>
                 </a>
@@ -79,9 +78,18 @@
                     'nav-item-link',
                     'active' => request()->routeIs('admin.wc_resource.*'),
                 ]) href="{{ route('admin.wc_resource.index') }}"
-                    data-title="Dashboard" data-subitems="[]">
+                    data-title="Dashboard">
                     <i class="fa fa-gauge nav-icon"></i>
                     <span class="nav-text">Resources</span>
+                </a>
+                <!-- Assment Questions -->
+                <a id="nev-menu-item" @class([
+                    'nav-item-link',
+                    'active' => request()->routeIs('admin.questions.*'),
+                ]) href="{{ route('admin.questions.index') }}"
+                    data-title="Dashboard">
+                    <i class="fa fa-gauge nav-icon"></i>
+                    <span class="nav-text">Assments Questions</span>
                 </a>
 
                 {{-- <!-- Dropdown Trigger -->
