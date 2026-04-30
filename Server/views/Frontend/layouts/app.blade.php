@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <title>@yield('title', 'Pro-talk | Let`s Talk Nutrition')</title>
         <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('public/assets/css/select2.min.css') }}" rel="stylesheet" />
@@ -51,8 +52,16 @@
                         @auth('web')
                             <li class="nav-item">
                                 <a href="{{ route('live-session') }}" @class(['nav-link', 'active' => request()->routeIs('live-session')])>
-                                    <i class="fa fa-broadcast-tower me-2" style="color:var(--primaryThemeColor)"></i>Live
+                                    <i class="fa fa-broadcast-tower me-2"></i>Live
                                     Session
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('webinars.assessment') }}" @class([
+                                    'nav-link',
+                                    'active' => request()->routeIs('webinars.assessment.*'),
+                                ])>
+                                    Assessment
                                 </a>
                             </li>
                         @endauth
@@ -99,8 +108,16 @@
                     @auth('web')
                         <li class="nav-item">
                             <a href="{{ route('live-session') }}" @class(['nav-link', 'active' => request()->routeIs('live-session')])>
-                                <i class="fa fa-broadcast-tower me-2" style="color:var(--primaryThemeColor)"></i>Live
+                                <i class="fa fa-broadcast-tower me-2"></i>Live
                                 Session
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('webinars.assessment') }}" @class([
+                                'nav-link',
+                                'active' => request()->routeIs('webinars.assessment'),
+                            ])>
+                                Assessment
                             </a>
                         </li>
                     @endauth
@@ -182,6 +199,7 @@
         <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
         <script src="{{ asset('public/assets/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('public/assets/js/select2.min.js') }}"></script>
+        <script src="{{ asset('public/assets/js/sweetalert2@11.js') }}"></script>
         <script src="{{ asset('public/assets/js/swiper-bundle.min.js') }}"></script>
         <script src="{{ asset('public/assets/js/script.js') }}"></script>
         @if (session()->has('success'))

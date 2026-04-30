@@ -34,7 +34,7 @@ class WebinarController extends Controller
         $data = WebCastActivity::with('resources')->find(decrypt($webcast_id));
         $teaser = (bool)$request->query('teaser', null);
         $type = $teaser ? 'teaser' : 'video';
-        return view('Frontend.webinar-video', compact('data', 'teaser'));
+        return view('Frontend.webinar-video', compact('data', 'teaser', 'type'));
     }
     public function pdfStream(Request $request, TrackService $trackService)
     {

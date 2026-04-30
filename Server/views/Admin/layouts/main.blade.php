@@ -18,6 +18,142 @@
         <link rel="stylesheet" href="{{ asset('public/assets/css/form-components.css?v=') . time() }}">
 
         @stack('styles')
+        <style>
+            .sidebar-nav-item {
+                padding-left: 0% !important;
+            }
+
+            /* ── Sidebar Dropdown Menu ── */
+            .sidebar-nav-item {
+                list-style: none;
+            }
+
+            .sidebar-nav-link {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                padding: 11px 16px;
+                border-radius: 10px;
+                cursor: pointer;
+                color: var(--primaryThemeColor);
+                font-size: 0.875rem;
+                font-weight: 500;
+                text-decoration: none;
+                transition: background .15s, color .15s;
+                user-select: none;
+                margin-bottom: 5px;
+            }
+
+            .sidebar-nav-link:hover {
+                background: var(--primaryThemeColor);
+                color: #fff;
+            }
+
+            .sidebar-nav-link.active {
+                background: var(--primaryThemeColor);
+                color: #fff;
+            }
+
+            .sidebar-nav-link-left {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .sidebar-nav-link i.nav-icon {
+                font-size: 16px;
+                color: var(--primaryThemeColor);
+                flex-shrink: 0;
+            }
+
+            .sidebar-nav-link.active i.nav-icon,
+            .sidebar-nav-link:hover i.nav-icon {
+                color: #fff;
+            }
+
+            .sidebar-nav-chevron {
+                font-size: 12px;
+                color: var(--primaryThemeColor);
+                transition: transform .25s ease, color .15s;
+                flex-shrink: 0;
+            }
+
+            .sidebar-nav-link:hover .sidebar-nav-chevron {
+                color: #fff;
+            }
+
+            .sidebar-nav-link.open .sidebar-nav-chevron {
+                transform: rotate(180deg);
+                color: white;
+            }
+
+            /* Dropdown children */
+            .sidebar-dropdown {
+                overflow: hidden;
+                max-height: 0;
+                transition: max-height .3s ease, opacity .25s ease;
+                opacity: 0;
+            }
+
+            .sidebar-dropdown.open {
+                max-height: 400px;
+                opacity: 1;
+            }
+
+            .sidebar-dropdown-inner {
+                padding: 4px 0 4px 22px;
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .sidebar-dropdown-link {
+                display: block;
+                padding: 8px 14px;
+                font-size: 0.855rem;
+                font-weight: 6 00;
+                color: #94a3b8;
+                text-decoration: none;
+                border-radius: 8px;
+                transition: background .15s, color .15s, padding-left .15s;
+                position: relative;
+            }
+
+            .sidebar-dropdown-link::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 3px;
+                height: 0;
+                background: var(--primaryThemeColor);
+                border-radius: 2px;
+                transition: height .2s ease;
+            }
+
+            .sidebar-dropdown-link:hover {
+                background: rgba(255, 255, 255, .06);
+                color: var(--primaryThemeColor);
+                padding-left: 18px;
+            }
+
+            .sidebar-dropdown-link:hover::before {
+                height: 16px;
+            }
+
+            .sidebar-dropdown-link.active {
+                /* background: var(--primaryThemeColorLight); */
+                color: var(--primaryThemeColor);
+                font-weight: 500;
+                padding-left: 18px;
+            }
+
+            .sidebar-dropdown-link.active::before {
+                height: 16px;
+            }
+        </style>
 
     </head>
 
@@ -43,7 +179,7 @@
                     'active' => request()->routeIs('admin.dashboard'),
                 ]) href="{{ route('admin.dashboard') }}"
                     data-title="Dashboard">
-                    <i class="fa fa-gauge nav-icon"></i>
+                    <i class="fa fa-home nav-icon"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>
 
@@ -53,63 +189,76 @@
                     'active' => request()->routeIs('admin.users.*'),
                 ]) href="{{ route('admin.users.index') }}"
                     data-title="Dashboard">
-                    <i class="fa fa-gauge nav-icon"></i>
+                    <i class="fa fa-users nav-icon"></i>
                     <span class="nav-text">Users</span>
                 </a>
-                <!-- Category -->
-                <!-- <a id="nev-menu-item" @class([
-                    'nav-item-link',
-                    'active' => request()->routeIs('admin.category.*'),
-                ]) href="{{ route('admin.category.index') }}" data-title="Dashboard">
-                    <i class="fa fa-gauge nav-icon"></i>
-                    <span class="nav-text">Category</span>
-                </a> -->
-                <!-- WebCast Connect -->
+
+                {{-- <!-- WebCast Connect -->
                 <a id="nev-menu-item" @class([
                     'nav-item-link',
                     'active' => request()->routeIs('admin.wc_connect.*'),
                 ]) href="{{ route('admin.wc_connect.index') }}"
                     data-title="Dashboard">
-                    <i class="fa fa-gauge nav-icon"></i>
+                    <i class="fa fa-broadcast-tower nav-icon"></i>
                     <span class="nav-text">WebCast Connect</span>
                 </a>
+
                 <!-- WebCast Resources -->
                 <a id="nev-menu-item" @class([
                     'nav-item-link',
                     'active' => request()->routeIs('admin.wc_resource.*'),
                 ]) href="{{ route('admin.wc_resource.index') }}"
                     data-title="Dashboard">
-                    <i class="fa fa-gauge nav-icon"></i>
+                    <i class="fa fa-briefcase nav-icon"></i>
                     <span class="nav-text">Resources</span>
                 </a>
+
                 <!-- Assment Questions -->
                 <a id="nev-menu-item" @class([
                     'nav-item-link',
                     'active' => request()->routeIs('admin.questions.*'),
                 ]) href="{{ route('admin.questions.index') }}"
                     data-title="Dashboard">
-                    <i class="fa fa-gauge nav-icon"></i>
-                    <span class="nav-text">Assments Questions</span>
-                </a>
+                    <i class="fa-regular fa-circle-question nav-icon"></i>
+                    <span class="nav-text">Assessment Questions</span>
+                </a> --}}
 
-                {{-- <!-- Dropdown Trigger -->
-                <a class="nav-item-link dropdownManu" href="#" data-target="usersDropdown">
-                    <i class="fa fa-users nav-icon"></i>
-                    <span class="nav-text">Users</span>
-                    <i class="fa fa-chevron-down nav-arrow"></i>
-                </a>
+                <div class="sidebar-nav-item">
+                    {{-- Webcast Connect --}}
+                    <div @class([
+                        'sidebar-nav-link',
+                        'active' =>
+                            request()->routeIs('admin.wc_connect.*') ||
+                            request()->routeIs('admin.wc_resource.*') ||
+                            request()->routeIs('admin.questions.*'),
+                    ]) onclick="toggleSidebarDropdown(this)">
+                        <div class="sidebar-nav-link-left">
+                            <i class="fa fa-cog nav-icon"></i>
+                            <span>WebCast Connect</span>
+                        </div>
+                        <i class="fa fa-chevron-up sidebar-nav-chevron"></i>
+                    </div>
 
-                <!-- Dropdown Content -->
-                <div id="usersDropdown" class="nav-dropdown">
-                    <a class="nav-item-link" href="#">
-                        <i class="fa fa-user-plus nav-icon"></i>
-                        <span class="nav-text">Add User</span>
-                    </a>
-                    <a class="nav-item-link" href="#">
-                        <i class="fa fa-list-ul nav-icon"></i>
-                        <span class="nav-text">Manage Users</span>
-                    </a>
-                </div> --}}
+                    <div class="sidebar-dropdown">
+                        <div class="sidebar-dropdown-inner">
+                            <a @class([
+                                'sidebar-dropdown-link',
+                                'active' => request()->routeIs('admin.wc_connect.*'),
+                            ]) href="{{ route('admin.wc_connect.index') }}">
+                                <i class="fa fa-broadcast-tower nav-icon"></i> Activity</a>
+                            <a @class([
+                                'sidebar-dropdown-link',
+                                'active' => request()->routeIs('admin.wc_resource.*'),
+                            ]) href="{{ route('admin.wc_resource.index') }}">
+                                <i class="fa fa-briefcase nav-icon"></i> Activity Resources</a>
+                            <a @class([
+                                'sidebar-dropdown-link',
+                                'active' => request()->routeIs('admin.questions.*'),
+                            ]) href="{{ route('admin.questions.index') }}">
+                                <i class="fa-regular fa-circle-question nav-icon"></i> Assessment Questions</a>
+                        </div>
+                    </div>
+                </div>
 
             </nav>
 
@@ -128,7 +277,7 @@
                 </button>
                 <!-- Breadcrumb -->
                 <div class="header-breadcrumb">
-                    <h6 id="pageTitle">Dashboard</h6>
+                    <h6 id="pageTitle">@yield('header-breadcrumb', 'Dashboard')</h6>
                 </div>
 
                 <!-- User -->
@@ -225,6 +374,37 @@
         @endif
 
         @stack('scripts')
+        <script>
+            function toggleSidebarDropdown(trigger) {
+                const dropdown = trigger.nextElementSibling;
+                const isOpen = dropdown.classList.contains('open');
+                // ❌ Remove active from all parent links
+                document.querySelectorAll('.sidebar-nav-link').forEach(link => {
+                    link.classList.remove('active', 'open');
+                });
+
+                /* Close all open dropdowns */
+                document.querySelectorAll('.sidebar-dropdown.open').forEach(d => {
+                    d.classList.remove('open');
+                    d.previousElementSibling.classList.remove('open');
+                });
+
+                /* Open clicked one if it was closed */
+                if (!isOpen) {
+                    dropdown.classList.add('open');
+                    trigger.classList.add('active', 'open');
+                }
+            }
+
+            /* Auto-open dropdown if a child is active on page load */
+            document.querySelectorAll('.sidebar-dropdown-link.active').forEach(link => {
+                const dropdown = link.closest('.sidebar-dropdown');
+                if (dropdown) {
+                    dropdown.classList.add('open');
+                    dropdown.previousElementSibling.classList.add('open');
+                }
+            });
+        </script>
     </body>
 
 </html>

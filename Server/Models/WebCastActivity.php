@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\WebCastResource;
 use App\Models\UserTrack;
+use App\Models\LiveQuestion;
 
 class WebCastActivity extends Model
 {
@@ -20,5 +21,9 @@ class WebCastActivity extends Model
     public function tracks()
     {
         return $this->hasMany(UserTrack::class, 'web_cast_activity_id');
+    }
+    public function liveQuestions()
+    {
+        return $this->hasMany(LiveQuestion::class, 'web_cast_activity_id');
     }
 }

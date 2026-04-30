@@ -1,5 +1,5 @@
- question section front & backend
-cirtificate
-questions (assements) starting
+ question section front & backend - done
+cirtificate - done
+questions (assements) - done
 pdf view -done
-track -done
+track -done(properly not tracking) -ongoing

@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLiveQuestionController;
+use App\Http\Controllers\Admin\ActivityQuestionController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\WcConnectController;
 use App\Http\Controllers\Admin\WcResourceController;
-use App\Http\Controllers\Admin\ActivityQuestionController;
+use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WebinarController;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +27,16 @@ Route::post('register', [AuthController::class, 'registerPost'])->name('register
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('live-session/{id?}', [WebinarController::class, 'index'])->name('live-session');
+    Route::get('live-session/webinars/assessment', [AssessmentController::class, 'index'])->name('webinars.assessment');
+    Route::post('live-session/webinars/assessment', [AssessmentController::class, 'store'])->name('webinars.assessment.store');
+    Route::get('live-session/webinars/assessment/result', [AssessmentController::class, 'result'])->name('webinars.assessment.result');
+    Route::get('live-session/webinars/assessment/certificate', function () {
+        return view('Frontend.assessment.certificate');
+    })->name('webinars.assessment.certificate');
     Route::get('live-session/webinars/{webcast_id}', [WebinarController::class, 'videoStream'])->name('webinars.videoStream');
     Route::post('track-video-complete', [WebinarController::class, 'trackVideoComplete'])->name('track-video-complete');
     Route::get('live-session/webinars/{type}/{webcast_id_pdf}', [WebinarController::class, 'pdfStream'])->name('webinars.pdfStream');
+    Route::post('live-questions/submit', [ActivityLiveQuestionController::class, 'submitLiveQuestion'])->name('live.questions.submit');
 });
 
 Route::prefix('admin')->group(function () {
@@ -50,6 +59,12 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{id}', [WcConnectController::class, 'edit'])->name('edit');
             Route::put('update/{id}', [WcConnectController::class, 'update'])->name('update');
             Route::delete('delete/{id}', [WcConnectController::class, 'destroy'])->name('delete');
+        });
+        Route::prefix('live-questions')->name('admin.live-questions.')->group(function () {
+            Route::get('{activityId}',           [ActivityLiveQuestionController::class, 'index'])->name('index');
+            Route::get('{activityId}/data',      [ActivityLiveQuestionController::class, 'listData'])->name('list.data');
+            Route::post('{id}/mark-read',        [ActivityLiveQuestionController::class, 'markAsRead'])->name('mark.read');
+            Route::post('{id}/mark-unread',      [ActivityLiveQuestionController::class, 'markAsUnread'])->name('mark.unread');
         });
         Route::prefix('webcast-resource')->name('admin.wc_resource.')->group(function () {
             Route::get('/', [WcResourceController::class, 'index'])->name('index');

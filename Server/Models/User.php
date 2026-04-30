@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\UserTrack;
+use App\Models\LiveQuestion;
 
 class User extends Authenticatable
 {
@@ -59,5 +60,9 @@ class User extends Authenticatable
     public function tracks()
     {
         return $this->hasMany(UserTrack::class);
+    }
+    public function liveQuestions()
+    {
+        return $this->hasMany(LiveQuestion::class);
     }
 }

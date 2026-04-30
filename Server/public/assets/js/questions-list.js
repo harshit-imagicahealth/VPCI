@@ -125,14 +125,14 @@
   function dtBuildPagination() {
     const pages = Math.ceil(dtTotal / dtPerPage);
     const wrap = document.getElementById("dtPagination");
-    let html = `<button class="dt-page-btn" onclick="dtGoPage(${dtPage - 1})" ${dtPage === 1 ? "disabled" : ""}><i class="fa fa-chevron-left" style="font-size:.7rem;"></i></button>`;
+    let html = `<button class="dt-page-btn" data-page="${dtPage - 1}" ${dtPage === 1 ? "disabled" : ""}><i class="fa fa-chevron-left" style="font-size:.7rem;"></i></button>`;
     dtPageRange(dtPage, pages).forEach((p) => {
       html +=
         p === "…"
           ? `<button class="dt-page-btn" disabled>…</button>`
-          : `<button class="dt-page-btn ${p === dtPage ? "dt-page-active" : ""}" onclick="dtGoPage(${p})">${p}</button>`;
+          : `<button class="dt-page-btn ${p === dtPage ? "dt-page-active" : ""}"  data-page="${p}">${p}</button>`;
     });
-    html += `<button class="dt-page-btn" onclick="dtGoPage(${dtPage + 1})" ${dtPage === pages ? "disabled" : ""}><i class="fa fa-chevron-right" style="font-size:.7rem;"></i></button>`;
+    html += `<button class="dt-page-btn" data-page="${dtPage + 1}" ${dtPage === pages ? "disabled" : ""}><i class="fa fa-chevron-right" style="font-size:.7rem;"></i></button>`;
     wrap.innerHTML = html;
   }
 
@@ -144,12 +144,18 @@
     return [1, "…", cur - 1, cur, cur + 1, "…", total];
   }
 
-  window.dtGoPage = function (p) {
+  function dtGoPage(p) {
     const pages = Math.ceil(dtTotal / dtPerPage);
     if (p < 1 || p > pages) return;
     dtPage = p;
     dtFetch();
-  };
+  }
+
+  $(document).on("click", ".dt-page-btn", function () {
+    let page = $(this).data("page");
+    if (page === "") return;
+    dtGoPage(page);
+  });
 
   $(document).on("click", ".toggle-btn", function () {
     const id = $(this).data("id");

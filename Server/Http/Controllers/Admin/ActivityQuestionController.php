@@ -100,6 +100,7 @@ class ActivityQuestionController extends Controller
     public function destroy($id)
     {
         try {
+            $id = decrypt($id);
             ActivityQuestion::findOrFail($id)->delete();
 
             return response()->json([

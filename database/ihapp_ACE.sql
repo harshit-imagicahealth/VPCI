@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 29, 2026 at 06:01 PM
+-- Generation Time: Apr 30, 2026 at 06:00 PM
 -- Server version: 8.0.26
 -- PHP Version: 5.6.40
 
@@ -45,7 +45,9 @@ CREATE TABLE `activity_questions` (
 --
 
 INSERT INTO `activity_questions` (`id`, `question_type`, `question`, `answer`, `options`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'mcq', 'these is test question?', 'Test', '[\"Test\", \"qwe\", \"qwer\", \"asdc\"]', 0, '2026-04-29 06:52:06', '2026-04-29 07:01:04', NULL);
+(1, 'mcq', 'these is test question?', 'Test', '[\"Test\", \"qwe\", \"qwer\", \"axerf\"]', 1, '2026-04-29 06:52:06', '2026-04-30 03:15:36', NULL),
+(2, 'mcq', 'these is test question?', 'Test123', '[\"1\", \"12\", \"123\", \"Test123\"]', 1, '2026-04-30 02:46:34', '2026-04-30 03:13:52', NULL),
+(3, 'mcq', 'these is test question?123', 'Test', '[\"12\", \"1\", \"123\", \"Test\"]', 1, '2026-04-30 03:39:45', '2026-04-30 03:39:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -170,6 +172,40 @@ CREATE TABLE `job_batches` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `live_questions`
+--
+
+CREATE TABLE `live_questions` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `web_cast_activity_id` bigint UNSIGNED NOT NULL,
+  `question` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `is_read` tinyint(1) DEFAULT '0' COMMENT '0=unread, 1=read'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `live_questions`
+--
+
+INSERT INTO `live_questions` (`id`, `user_id`, `web_cast_activity_id`, `question`, `created_at`, `updated_at`, `deleted_at`, `is_read`) VALUES
+(1, 2, 11, 'how Are You?', '2026-04-29 23:37:42', '2026-04-29 23:37:42', NULL, 0),
+(2, 2, 11, 'how Are You?', '2026-04-29 23:52:18', '2026-04-29 23:52:18', NULL, 0),
+(3, 2, 11, 'how Are You?', '2026-04-29 23:52:23', '2026-04-29 23:52:23', NULL, 0),
+(4, 2, 11, 'how Are You?', '2026-04-29 23:52:27', '2026-04-29 23:52:27', NULL, 0),
+(5, 2, 11, 'how Are You?', '2026-04-29 23:52:32', '2026-04-30 00:13:38', NULL, 1),
+(6, 2, 11, 'how Are You?', '2026-04-29 23:52:35', '2026-04-30 00:13:51', NULL, 1),
+(7, 2, 11, 'how Are You?', '2026-04-29 23:53:43', '2026-04-30 00:13:34', NULL, 1),
+(8, 2, 11, 'how Are You?', '2026-04-29 23:53:47', '2026-04-30 00:13:15', NULL, 1),
+(9, 2, 11, 'how Are You?', '2026-04-29 23:53:51', '2026-04-30 00:09:19', NULL, 1),
+(10, 2, 11, 'how Are You?', '2026-04-29 23:53:55', '2026-04-30 00:13:45', NULL, 0),
+(11, 2, 11, 'how Are You?', '2026-04-30 00:44:23', '2026-04-30 00:44:23', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -222,7 +258,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('PS41NVCHRTvnePywDqXeTPPj4hBRVqfQLYQDXhLW', 1, '172.69.179.176', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiWWxZWHFjbjJpd3RFcHZ4UU9CMGFuM1FPdVltWGhVa3NxNFN6WWxWOCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzY6Imh0dHBzOi8vaWhhcHAuaW4vQUNFL2FkbWluL3F1ZXN0aW9ucyI7czo1OiJyb3V0ZSI7czoyMToiYWRtaW4ucXVlc3Rpb25zLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjtzOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1777465865);
+('rzbWud49ctkkOt9MBUARrFvjTdqbWtQREUxcFawQ', 5, '172.69.179.175', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiVFl6Rnd2ZEhiZWU4SnlzUkFFblZGVlZ0c2s5aTlRS1draTVyelJPVSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjQzOiJodHRwczovL2loYXBwLmluL0FDRS9saXZlLXNlc3Npb24vd2ViaW5hcnMvZXlKcGRpSTZJbEJ1ZUc5VVVuRm5Ramh6WjAxek5rSkVjVWxuYjBFOVBTSXNJblpoYkhWbElqb2lTMDlNWlRBdk1GcHpiVmhLU21Sb2JYRmpWSEkyVVQwOUlpd2liV0ZqSWpvaU1tSmxOemN5WkRGaU56VTNNemhrTXpCallUQmhNakk1TWpNeE5XWTRaV1JrTkdWbE5qZGxOVGRoTm1FNE1XTXlZbUk1TldKbE1HUTVaREptTjJaak1DSXNJblJoWnlJNklpSjkiO3M6NToicm91dGUiO3M6MjA6IndlYmluYXJzLnZpZGVvU3RyZWFtIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMzoiaHR0cHM6Ly9paGFwcC5pbi9BQ0UvbGl2ZS1zZXNzaW9uIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTtzOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1777545670),
+('wulguyQILWNuhoYNqq6BHnbmjy0dbETARN1EYctT', 1, '162.158.227.225', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiREVjeEpoaUVtajZmb09yRTRvZGZWNkNUeThiaG5jRG5qbERYVEx2RyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMzQ6Imh0dHBzOi8vaWhhcHAuaW4vQUNFL2xpdmUtc2Vzc2lvbi9leUpwZGlJNklrcEJSMnh5TTJwTlRsVkVUVk5vWTBvMFExb3JTa0U5UFNJc0luWmhiSFZsSWpvaWVEbE9kMGxKU2xaWlp6QlZNVzFRY3pCYVUyRmFVVDA5SWl3aWJXRmpJam9pTW1ReU56QXhZekV5WkRWaE9HWTJZMlJsTkRrd01tWmpNMlJsTmprd1l6TmlOR1JsWkRVM05EQm1OVEppWmpJNFkyVmtaakJpWVRVM1pXUXlPRGRoWXlJc0luUmhaeUk2SWlKOSI7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjQzOiJodHRwczovL2loYXBwLmluL0FDRS9hZG1pbi93ZWJjYXN0LXJlc291cmNlIjtzOjU6InJvdXRlIjtzOjIzOiJhZG1pbi53Y19yZXNvdXJjZS5pbmRleCI7fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1777551987);
 
 -- --------------------------------------------------------
 
@@ -259,7 +296,34 @@ INSERT INTO `users` (`id`, `name`, `first_name`, `last_name`, `email`, `email_ve
 (1, 'Jonathan Smith', 'Jonathan', 'Smith', 'test@example.com', NULL, '$2y$12$3zl.fVkR2DFhFapEozIIfe85zs6uJduBCeaKAFfLTgq8e7ahLrxVK', 'Mr', 'MBBS', 'HP City Hospital', 'Gujarat', 'Surat', '395006', '9876543210', NULL, '2026-04-27 01:01:51', '2026-04-27 01:01:51', NULL),
 (2, 'Jonathan Smith', 'Jonathan', 'Smith', 'test@example1.com', NULL, '$2y$12$hpkQuqfTzV5xqPUJf8pc9e1zBlDeb.G6NweEI1eM/d49ZAJsinQ8a', 'Mr', 'MBBS', 'HP City Hospital', 'Gujarat', 'Surat', '395006', '9876543211', NULL, '2026-04-28 03:19:39', '2026-04-28 03:19:39', NULL),
 (3, 'Jonathan Smith', 'Jonathan', 'Smith', 'demo@gmail.com', NULL, '$2y$12$7d9kdXVL7YH1f/bQHAWk1eGogb0IEddI9yUdM3v29mh5PaISiIrQC', 'Mr', 'MBBS', 'HP City Hospital', 'Gujarat', 'Surat', '395006', '9724078754', NULL, '2026-04-28 03:29:25', '2026-04-28 03:29:25', NULL),
-(4, 'Jonathan Smith', 'Jonathan', 'Smith', 'rt@gmail.com', NULL, '$2y$12$dGW118sPmD2Th5s8ilaEOOtcTqYEjXagarpdJoUu.SZ.0CgThBgqO', 'Mr', 'MBBS', 'HP City Hospital', 'Gujarat', 'Surat', '395006', '9876743210', NULL, '2026-04-28 06:05:30', '2026-04-28 06:05:30', NULL);
+(4, 'Jonathan Smith', 'Jonathan', 'Smith', 'rt@gmail.com', NULL, '$2y$12$dGW118sPmD2Th5s8ilaEOOtcTqYEjXagarpdJoUu.SZ.0CgThBgqO', 'Mr', 'MBBS', 'HP City Hospital', 'Gujarat', 'Surat', '395006', '9876743210', NULL, '2026-04-28 06:05:30', '2026-04-28 06:05:30', NULL),
+(5, 'Rt Anghan', 'Rt', 'Anghan', 'rtanghan0@gmail.com', NULL, '$2y$12$h34iOfdpFBoyFVs0p/6yEuRp.Q/1bFupWPouEMspswu5FKL7/Y8TO', 'Dr', 'MBBS', 'Apollo Hosiptal,', 'Gujarat', 'ccd', '395006', '9771506644', NULL, '2026-04-30 04:09:28', '2026-04-30 04:09:28', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_assessment_questions_ans`
+--
+
+CREATE TABLE `user_assessment_questions_ans` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `question_id` bigint UNSIGNED NOT NULL,
+  `answer` text NOT NULL,
+  `is_correct_ans` tinyint(1) DEFAULT '0' COMMENT '1=true, 0=false',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `user_assessment_questions_ans`
+--
+
+INSERT INTO `user_assessment_questions_ans` (`id`, `user_id`, `question_id`, `answer`, `is_correct_ans`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(5, 2, 1, 'Test', 1, '2026-04-30 03:40:44', '2026-04-30 03:40:44', NULL),
+(6, 2, 2, 'Test123', 1, '2026-04-30 03:40:44', '2026-04-30 03:40:44', NULL),
+(7, 2, 3, '1', 0, '2026-04-30 03:40:44', '2026-04-30 09:43:48', NULL);
 
 -- --------------------------------------------------------
 
@@ -356,10 +420,10 @@ CREATE TABLE `web_cast_activity_resources` (
 
 INSERT INTO `web_cast_activity_resources` (`id`, `webcast_activity_id`, `activity_type`, `upload_type`, `pdf_url`, `url`, `video_url`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 7, 'pre_read', 'pdf', 'https://imagicahealth.live/pdfgoogledrive/pdf-flipbook/sTwZkuOzxk165', NULL, NULL, '2026-04-28 04:39:55', '2026-04-28 04:39:55', NULL),
-(2, 7, 'teaser', 'pdf', 'https://player.vimeo.com/video/954655325?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', NULL, NULL, '2026-04-28 04:39:55', '2026-04-28 04:39:55', NULL),
+(2, 7, 'teaser', 'url', '', 'https://player.vimeo.com/video/954655325?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', NULL, '2026-04-28 04:39:55', '2026-04-28 04:39:55', NULL),
 (3, 7, 'view_agenda', 'pdf', 'https://imagicahealth.live/pdfgoogledrive/pdf-flipbook/sTwZkuOzxk165', NULL, NULL, '2026-04-28 04:39:55', '2026-04-28 04:39:55', NULL),
 (4, 7, 'summary', 'pdf', 'https://imagicahealth.live/pdfgoogledrive/pdf-flipbook/sTwZkuOzxk165', NULL, NULL, '2026-04-28 04:39:55', '2026-04-28 04:39:55', NULL),
-(5, 7, 'vimeo_url', 'url', 'https://player.vimeo.com/video/954655325?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', NULL, NULL, '2026-04-28 04:39:55', '2026-04-28 04:39:55', NULL),
+(5, 7, 'vimeo_url', 'url', '', 'https://player.vimeo.com/video/954655325?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', NULL, '2026-04-28 04:39:55', '2026-04-28 04:39:55', NULL),
 (6, 11, 'pre_read', 'pdf', 'https://imagicahealth.live/pdfgoogledrive/pdf-flipbook/sTwZkuOzxk165', NULL, NULL, '2026-04-29 04:19:07', '2026-04-29 04:19:07', NULL),
 (7, 11, 'teaser', 'url', NULL, 'https://player.vimeo.com/video/954655325?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479', NULL, '2026-04-29 04:19:07', '2026-04-29 04:19:07', NULL),
 (8, 11, 'view_agenda', 'pdf', 'https://imagicahealth.live/pdfgoogledrive/pdf-flipbook/sTwZkuOzxk165', NULL, NULL, '2026-04-29 04:19:07', '2026-04-29 04:19:07', NULL),
@@ -427,6 +491,18 @@ ALTER TABLE `job_batches`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `live_questions`
+--
+ALTER TABLE `live_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_lq_user` (`user_id`),
+  ADD KEY `idx_lq_activity` (`web_cast_activity_id`),
+  ADD KEY `idx_lq_deleted` (`deleted_at`),
+  ADD KEY `idx_lq_user_activity` (`user_id`,`web_cast_activity_id`),
+  ADD KEY `idx_lq_activity_time` (`web_cast_activity_id`,`created_at`),
+  ADD KEY `idx_lq_is_read` (`is_read`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -453,6 +529,19 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
   ADD UNIQUE KEY `users_mobile_unique` (`mobile`);
+
+--
+-- Indexes for table `user_assessment_questions_ans`
+--
+ALTER TABLE `user_assessment_questions_ans`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_user_question` (`user_id`,`question_id`),
+  ADD KEY `idx_uaqa_user` (`user_id`),
+  ADD KEY `idx_uaqa_question` (`question_id`),
+  ADD KEY `idx_uaqa_deleted` (`deleted_at`),
+  ADD KEY `idx_uaqa_user_question` (`user_id`,`question_id`),
+  ADD KEY `idx_uaqa_correct` (`is_correct_ans`),
+  ADD KEY `idx_uaqa_user_correct` (`user_id`,`is_correct_ans`);
 
 --
 -- Indexes for table `user_tracks`
@@ -484,7 +573,7 @@ ALTER TABLE `web_cast_activity_resources`
 -- AUTO_INCREMENT for table `activity_questions`
 --
 ALTER TABLE `activity_questions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -511,6 +600,12 @@ ALTER TABLE `jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `live_questions`
+--
+ALTER TABLE `live_questions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -520,7 +615,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `user_assessment_questions_ans`
+--
+ALTER TABLE `user_assessment_questions_ans`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user_tracks`
@@ -543,6 +644,20 @@ ALTER TABLE `web_cast_activity_resources`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `live_questions`
+--
+ALTER TABLE `live_questions`
+  ADD CONSTRAINT `fk_live_questions_activity` FOREIGN KEY (`web_cast_activity_id`) REFERENCES `web_cast_activities` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_live_questions_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_assessment_questions_ans`
+--
+ALTER TABLE `user_assessment_questions_ans`
+  ADD CONSTRAINT `fk_uaqa_question` FOREIGN KEY (`question_id`) REFERENCES `activity_questions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_uaqa_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_tracks`

@@ -16,15 +16,14 @@
                     <figure data-overlay="8">
                         <picture>
                             <!-- Mobile Image -->
-                            <source srcset="https://imagicahealth.live/protalk/assets/img/banner/main_mobile.png"
-                                media="(max-width: 767px)">
+                            <source srcset="{{ asset('public/assets/images/home-banner.png') }}" media="(max-width: 767px)">
 
                             <!-- Desktop Image -->
-                            <source srcset="{{ asset('public/assets/images/home-banner-1.png') }}" media="(min-width: 768px)">
+                            <source srcset="{{ asset('public/assets/images/home-banner.png') }}" media="(min-width: 768px)">
 
                             <!-- Fallback for Older Browsers -->
-                            <img class="img-fluid" src="{{ asset('public/assets/images/home-banner-1.png') }}"
-                                alt="slide" style="width: 100%; height: auto;">
+                            <img class="img-fluid" src="{{ asset('public/assets/images/home-banner.png') }}" alt="slide"
+                                style="width: 100%; height: auto;">
                         </picture>
                     </figure>
                 </a>
@@ -38,12 +37,14 @@
             <div class="row justify-content-center g-3">
 
                 <div class="col-12 col-sm-6 col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <img src="{{ asset('public/assets/images/icon/WebcastConnect.svg') }}" alt="">
+                    <a class="text-decoration-none" href="{{ route('live-session') }}">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <img src="{{ asset('public/assets/images/icon/WebcastConnect.svg') }}" alt="">
+                            </div>
+                            <span>Webcast Connect</span>
                         </div>
-                        <span>Webcast Connect</span>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-4">

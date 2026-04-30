@@ -77,6 +77,7 @@
     let exportUrl = null;
     let editUrl = "{{ route('admin.wc_connect.edit', ':id') }}";
     let deleteUrl = "{{ route('admin.wc_connect.delete', ':id') }}";
+    let questionsUrl = "{{ route('admin.live-questions.index', ':id') }}";
     let csrf = "{{ csrf_token() }}";
 </script>
 <script src="{{ asset('public/assets/js/wc-connect-list.js?v=') . time() }}"></script>
