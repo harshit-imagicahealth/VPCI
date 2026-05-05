@@ -29,10 +29,12 @@
         if (!data || !data.data || data.data.length === 0) {
           dtTotal = 0;
           dtRender([]);
+          loader.addClass("d-none"); // 🔥 hide loader
           return;
         }
         dtTotal = data.total || 0;
         dtRender(data.data);
+        $("#pageLoader").addClass("d-none");
       },
       error: function () {
         $("#dtBody").html(
@@ -40,7 +42,6 @@
         );
       },
       complete: function () {
-        $("#pageLoader").addClass("d-none");
         dtFetching = false;
       },
     });

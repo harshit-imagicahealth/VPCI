@@ -126,8 +126,8 @@
                     <div class="col-12">
                         <label class="form-label">Password</label>
                         <div class="pass-wrap">
-                            <input type="password" id="regPass" name="password" placeholder="Create password"
-                                class="form-control no-error" oninput="checkStrength(this.value)"
+                            <input type="password" id="regPass" name="password"
+                                placeholder="Enter Password 'Allergy_Ace'" class="form-control no-error"
                                 value="{{ old('password') }}" />
                             <i class="fa fa-eye toggle-eye" onclick="togglePass('regPass', this)"></i>
                         </div>
@@ -316,7 +316,7 @@
             // $('[name="pincode"]').val('395006');
             // $('[name="mobile"]').val('9876543210');
 
-            // // $('[name="password"]').val('Alergy_Ace');
+            // $('[name="password"]').val('Allergy_Ace');
             // let defaultState = "Gujarat";
             // let defaultCity = "Surat";
 
@@ -380,7 +380,7 @@
                 }
 
                 if (!password) setError("password", "Enter Password.");
-                if (password != "Alergy_Ace") setError("password", "Password must be Alergy_Ace.");
+                if (password != "Allergy_Ace") setError("password", "Password must be `Allergy_Ace`");
                 // if (!confirmPass) setError("confirmPass", "Enter Confirm Password.");
 
                 // Password Strength

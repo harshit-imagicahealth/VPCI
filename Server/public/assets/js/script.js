@@ -19,19 +19,10 @@ function showAlert(message, type = "success") {
 }
 
 $(document).ready(function () {
-  const goTopBtn = document.getElementById("goTopBtn");
-  if (goTopBtn) {
-    goTopBtn.addEventListener("click", function () {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    });
-  }
   const navbar = document.getElementById("mainNavbar");
 
   function handleScroll() {
-    if (window.scrollY > 50) {
+    if (window.scrollY > 10) {
       navbar.classList.add("scrolled");
     } else {
       navbar.classList.remove("scrolled");
@@ -43,4 +34,14 @@ $(document).ready(function () {
 
   // ✅ Run on page load (IMPORTANT FIX)
   handleScroll();
+
+  const goTopBtn = document.getElementById("goTopBtn");
+  if (goTopBtn) {
+    goTopBtn.addEventListener("click", function () {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+  }
 });

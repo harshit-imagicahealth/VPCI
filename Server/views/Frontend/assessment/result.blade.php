@@ -8,7 +8,7 @@
 
             {{-- Header --}}
             <div class="result-header">
-                <a class="result-back-link" href="{{ route('home') }}">
+                <a class="result-back-link" href="{{ route('live-session') }}">
                     <i class="fa fa-arrow-left"></i> Back to Home
                 </a>
                 <div class="result-header-right">
@@ -46,21 +46,29 @@
                         <i class="fa fa-calendar"></i>
                         <span class="text">Completed on {{ $completedAt->format('d M Y, h:i A') }}</span>
                     </p>
-
-                    <div class="result-stats">
-                        <div class="result-stat result-stat-correct">
-                            <span class="text-success">{{ $correct }}</span>
-                            <small><i class="fa fa-check"></i> Correct</small>
+                    <div
+                        class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center row-gap-2 column-gap-3">
+                        <div class="result-stats">
+                            <div class="result-stat result-stat-correct">
+                                <span class="text-success">{{ $correct }}</span>
+                                <small><i class="fa fa-check"></i> Correct</small>
+                            </div>
+                            <div class="result-stat-divider"></div>
+                            <div class="result-stat result-stat-wrong">
+                                <span class="text-danger">{{ $wrong }}</span>
+                                <small><i class="fa fa-times"></i> Wrong</small>
+                            </div>
+                            <div class="result-stat-divider"></div>
+                            <div class="result-stat result-stat-total">
+                                <span class="text-primary">{{ $total }}</span>
+                                <small><i class="fa fa-list"></i> Total</small>
+                            </div>
                         </div>
-                        <div class="result-stat-divider"></div>
-                        <div class="result-stat result-stat-wrong">
-                            <span class="text-danger">{{ $wrong }}</span>
-                            <small><i class="fa fa-times"></i> Wrong</small>
-                        </div>
-                        <div class="result-stat-divider"></div>
-                        <div class="result-stat result-stat-total">
-                            <span class="text-primary">{{ $total }}</span>
-                            <small><i class="fa fa-list"></i> Total</small>
+                        <div class="result-stats-download">
+                            <a class="btn btn-primary" href="{{ route('webinars.assessment.certificate') }}">
+                                <span class="result-state-download-icon"><i class="fa fa-download"></i></span>
+                                <span class="text">Certificate</span>
+                            </a>
                         </div>
                     </div>
                 </div>

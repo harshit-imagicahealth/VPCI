@@ -15,7 +15,7 @@
 
             {{-- Header --}}
             <div class="cert-page-header">
-                <a class="cert-back-link" href="{{ route('home') }}">
+                <a class="cert-back-link" href="{{ route('webinars.assessment.result') }}">
                     <i class="fa fa-arrow-left"></i> Back
                 </a>
                 <span class="cert-page-badge">

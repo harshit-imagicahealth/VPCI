@@ -1,8 +1,15 @@
 <?php
 
 return [
-    'hours'   => array_combine(range(1, 12), range(1, 12)),
-    'minutes' => array_combine(range(0, 55, 5), range(0, 55, 5)),
+    'hours' => array_combine(
+        array_map(fn($n) => sprintf('%02d', $n), range(1, 12)),
+        array_map(fn($n) => sprintf('%02d', $n), range(1, 12))
+    ),
+
+    'minutes' => array_combine(
+        array_map(fn($n) => sprintf('%02d', $n), range(0, 55, 5)),
+        array_map(fn($n) => sprintf('%02d', $n), range(0, 55, 5))
+    ),
     'ampm'    => array_combine(['AM', 'PM'], ['AM', 'PM']),
     'status'  => array_combine([
         'upcoming',
@@ -52,6 +59,7 @@ return [
             'pdf' => true,
         ],
     ],
+    // currently no use
     'cirtificate_complate_count' => [
         'Pre-read',
         'Teaser',
@@ -66,5 +74,14 @@ return [
         'multi_optional' => 'Multi Optional',
         'mcq_other' => 'MCQ with "Any other" option',
         'multi_optional_other' => 'Multi Optional with "Any other" option',
+    ],
+    'module_resource_options' => [
+        '' => 'Select Button',
+        'pre_read' => 'Pre-read',
+        'teaser' => 'Teaser',
+        'view_agenda' => 'View Agenda',
+        'summary' => 'Summary',
+        'vimeo_url' => 'Live Session',
+        // 'custom' => 'Custom'
     ],
 ];

@@ -1,21 +1,20 @@
 @extends('Frontend.layouts.app')
-@section('title', 'Allergy & Immunotherapy Sensitization Webinar')
+@section('title', 'Webinar')
 
 @push('styles')
 @endpush
 
 @section('main')
-    <section class="container-fluid px-0">
-        <div class="position-relative imageSlider-wrapper mx-0">
-            <div class="swiper imageSlider">
-                <div class="swiper-wrapper">
-                    @isset($liveSession)
-                        @php
-                            $images = isset($liveSession->slider_images)
-                                ? json_decode($liveSession->slider_images ?? '[]')
-                                : [];
-                            // {{ config('filesystems.disks.spaces.cdn_url') . '/ACE/webcasts/sliders/' . $image }}
-                        @endphp
+    @isset($liveSession)
+        @php
+            $images = isset($liveSession->slider_images) ? json_decode($liveSession->slider_images ?? '[]') : [];
+            $imageCount = count($images);
+            // {{ config('filesystems.disks.spaces.cdn_url') . '/ACE/webcasts/sliders/' . $image }}
+        @endphp
+        <section class="container-fluid px-0">
+            <div class="position-relative imageSlider-wrapper mx-0">
+                <div class="swiper imageSlider">
+                    <div class="swiper-wrapper">
                         @foreach ($images as $image)
                             <!-- Slide -->
                             <div class="swiper-slide">
@@ -25,10 +24,10 @@
                                         alt="slide">
 
                                     <!-- Overlay Buttons -->
-                                    <div class="slider-overlay">
+                                    <div class="slider-overlay d-md-flex d-none">
                                         <a class="text-decoration-none"
                                             href="{{ route('webinars.videoStream', ['webcast_id' => encrypt($liveSession->id)]) }}">
-                                            <button type="button" class="btn btn-danger join-btn">
+                                            <button type="button" class="btn btn-outline-danger join-btn">
                                                 <i class="fa fa-video me-1"></i> Join Live Session
                                             </button>
                                         </a>
@@ -43,19 +42,35 @@
                                 </div>
                             </div>
                         @endforeach
-                    @endisset
 
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="swiper-pagination"></div>
                 </div>
+                <div class="custom-nav">
+                    <div class="swiper-button-prev-image {{ $imageCount <= 1 ? 'pointer-events-none' : '' }}"
+                        @disabled($imageCount <= 1)></div>
+                    <div class="swiper-button-next-image {{ $imageCount <= 1 ? 'pointer-events-none' : '' }}"
+                        @disabled($imageCount <= 1)></div>
+                </div>
+            </div>
+            <div class="d-flex d-md-none justify-content-center mb-1 mt-3 gap-2">
+                <a class="text-decoration-none"
+                    href="{{ route('webinars.videoStream', ['webcast_id' => encrypt($liveSession->id)]) }}">
+                    <button type="button" class="btn btn-outline-danger join-btn">
+                        <i class="fa fa-video me-1"></i> Join Live Session
+                    </button>
+                </a>
 
-                <!-- Pagination -->
-                <div class="swiper-pagination"></div>
+                <div class="custom-dropdown">
+                    <div type="button" class="btn btn-light explore-btn">
+                        Explore <i class="fa fa-chevron-down ms-1"></i>
+                    </div>
+                </div>
             </div>
-            <div class="custom-nav">
-                <div class="swiper-button-prev-image"></div>
-                <div class="swiper-button-next-image"></div>
-            </div>
-        </div>
-    </section>
+        </section>
+    @endisset
     <section id="headerExploreFeatureTab" class="top-feature-bar d-none">
         <div class="container-fluid">
             <div class="feature-wrapper mx-3">
@@ -129,7 +144,8 @@
                                 : null;
                         @endphp
                         <!-- Slide 1 — LIVE NOW -->
-                        <div class="swiper-slide" data-url="{{ route('live-session', ['id' => encrypt($module->id)]) }}">
+                        <div class="swiper-slide" data-url="{{ route('live-session', ['id' => encrypt($module->id)]) }}"
+                            data-status="{{ $module->status }}">
                             <div class="module-card active-card">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start gap-1">
@@ -187,7 +203,7 @@
             var swiper = new Swiper(".imageSlider", {
                 slidesPerView: 1,
                 spaceBetween: 10,
-                loop: true,
+                loop: '{{ $imageCount > 1 }}',
 
                 pagination: {
                     el: ".swiper-pagination",
@@ -206,10 +222,10 @@
                 centeredSlides: true, // ✅ MAIN FIX
                 centerInsufficientSlides: true, // ✅ keeps center when few slides
 
-                // pagination: {
-                //     el: ".swiper-pagination",
-                //     clickable: true,
-                // },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
 
                 navigation: {
                     nextEl: ".swiper-button-next",
@@ -299,8 +315,10 @@
         });
 
         $('.module-section .swiper-slide').click(function() {
-            let url = $(this).data('url');
-            window.location.href = url;
+            if ($(this).data('status') == 'live') {
+                let url = $(this).data('url');
+                window.location.href = url;
+            }
         });
     </script>
 @endpush

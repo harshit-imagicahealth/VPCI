@@ -51,12 +51,11 @@
                         <th>
                             Activity Name <i class="fa fa-sort dt-sort-icon"></i>
                         </th>
-                        <th>
-                            Activity Type
-                        </th>
-
-                        <th>Content</th>
-
+                        <th>Pre-read</th>
+                        <th>Teaser</th>
+                        <th>View Agenda</th>
+                        <th>Summary</th>
+                        <th>Vimeo Url</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

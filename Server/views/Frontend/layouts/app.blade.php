@@ -38,11 +38,13 @@
                 <!-- Desktop Menu -->
                 <div class="navbar-collapse d-none d-lg-flex collapse">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a href="{{ route('home') }}" @class(['nav-link', 'active' => request()->routeIs('home')])>
-                                Home
-                            </a>
-                        </li>
+                        @guest
+                            <li class="nav-item">
+                                <a href="{{ route('home') }}" @class(['nav-link', 'active' => request()->routeIs('home')])>
+                                    Home
+                                </a>
+                            </li>
+                        @endguest
 
                         <li class="nav-item">
                             <a href="{{ route('about-us') }}" @class(['nav-link', 'active' => request()->routeIs('about-us')])>
@@ -87,18 +89,20 @@
         <div id="mobileSidebar" class="offcanvas offcanvas-end" tabindex="-1">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title">
-                    <img class="img-fluid nav-logo" src="{{ asset('public/assets/images/logo.svg') }}" width="150">
+                    <img class="img-fluid nav-logo" src="{{ asset('public/assets/images/VPCI.png') }}" width="100">
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
             </div>
 
             <div class="offcanvas-body">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="{{ route('home') }}" @class(['nav-link', 'active' => request()->routeIs('home')])>
-                            Home
-                        </a>
-                    </li>
+                    @guest
+                        <li class="nav-item">
+                            <a href="{{ route('home') }}" @class(['nav-link', 'active' => request()->routeIs('home')])>
+                                Home
+                            </a>
+                        </li>
+                    @endguest
 
                     <li class="nav-item">
                         <a href="{{ route('about-us') }}" @class(['nav-link', 'active' => request()->routeIs('about-us')])>
@@ -108,8 +112,7 @@
                     @auth('web')
                         <li class="nav-item">
                             <a href="{{ route('live-session') }}" @class(['nav-link', 'active' => request()->routeIs('live-session')])>
-                                <i class="fa fa-broadcast-tower me-2"></i>Live
-                                Session
+                                <i class="fa fa-broadcast-tower me-2"></i>Live Session
                             </a>
                         </li>
                         <li class="nav-item">
@@ -150,8 +153,8 @@
                 <!-- LEFT CONTENT -->
                 <div class="mb-4">
                     <div class="row align-items-start about-box w-100 h-100 align-items-center mx-auto">
-                        <div class="col-md-7 border-right">
-                            <h2>About Airway Excellence Program</h2>
+                        {{-- <div class="col-md-7 border-right">
+                            <h2>About ACE</h2>
                             <p class="text-muted">
                                 ACE is a structured 3-month academic initiative featuring expert-led modules.
                                 pre-learning material, and concise post-session summaries, delivered through a
@@ -167,9 +170,9 @@
                                 Upon successful completion & assessment, participants will receive
                                 <strong>certification from Vallabhbhai Patel Chest Institute (VPCI).</strong>
                             </p>
-                        </div>
-                        <div class="col-md-5">
-                            <img class="img-fluid" src="{{ asset('public/assets/images/Footer (2).png') }}"
+                        </div> --}}
+                        <div class="col-md-12">
+                            <img class="img-fluid" src="{{ asset('public/assets/images/Footer(20).png') }}"
                                 alt="VPCI" width="100%">
 
                         </div>
@@ -201,7 +204,7 @@
         <script src="{{ asset('public/assets/js/select2.min.js') }}"></script>
         <script src="{{ asset('public/assets/js/sweetalert2@11.js') }}"></script>
         <script src="{{ asset('public/assets/js/swiper-bundle.min.js') }}"></script>
-        <script src="{{ asset('public/assets/js/script.js') }}"></script>
+        <script src="{{ asset('public/assets/js/script.js?v=') . time() }}"></script>
         @if (session()->has('success'))
             <script>
                 $(document).ready(function() {

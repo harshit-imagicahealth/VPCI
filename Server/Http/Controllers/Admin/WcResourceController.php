@@ -32,33 +32,35 @@ class WcResourceController extends Controller
 
     public function getData(Request $request)
     {
-        $q = WebCastResource::query()->with('webcast');
-        // dd($q->get());
+        $q = WebCastActivity::query()->has('resources')->with('resources:id,webcast_activity_id,activity_type,upload_type,pdf_url,url,video_url');
 
         if ($request->search)
-            $q->whereHas('webcast', function ($q) use ($request) {
-                $q->where('content_title', 'like', '%' . $request->search . '%');
-            })->orWhere('activity_type', 'like', '%' . $request->search . '%');
+            $q->whereHas('resources', function ($q) use ($request) {
+                $q->where('activity_type', 'like', '%' . $request->search . '%');
+            })->orWhere('content_title', 'like', '%' . $request->search . '%');
 
         if ($request->sortCol)
             $q->orderBy($request->sortCol, $request->sortDir ?? 'asc');
 
         $paginated = $q->paginate($request->perPage ?? 10)->through(function ($row) {
+            // Resources Collection
+            $resources = [];
+            foreach ($row->resources as $resource) {
+                $resources[] = [
+                    'activity_type' => $resource->activity_type,
+                    'activity_type_name' => ucwords(str_replace('_', ' ', ($resource->activity_type))),
+                    'upload_type' => $resource->upload_type,
+                    'pdf_url' => $resource->pdf_url,
+                    'url' => $resource->url,
+                ];
+            }
             return [
                 'encrypt_id' => encrypt($row->id),
-
                 // Activity Relation
                 'activity' => [
-                    'activity_name' => $row->webcast->content_title ?? null,
+                    'activity_name' => $row->content_title ?? null,
                 ],
-
-                // Resources Collection
-                'resources' => [
-                    'activity_type' => $row->activity_type,
-                    'activity_type_name' => ucwords(str_replace('_', ' ', ($row->activity_type))),
-                    'pdf_url' => $row->pdf_url,
-                    'url' => $row->url,
-                ],
+                'resources' => $resources,
             ];
         });
 
@@ -71,10 +73,17 @@ class WcResourceController extends Controller
     /* ── CREATE: show form for a specific activity_type ── */
     public function create()
     {
-        $usedIds = WebCastResource::pluck('webcast_activity_id');
-
+        $types = collect(config('wc_connect.feature_items'))->pluck('heading')->map(function ($item) {
+            return str_replace(' ', '_', str_replace('-', '_', strtolower($item)));
+        });
+        $usedIds = WebCastResource::whereNotIn('activity_type', $types)->pluck('webcast_activity_id');
+        $allreadyAddedButtons = WebCastResource::get()
+            ->groupBy('webcast_activity_id')
+            ->map(function ($items) {
+                return $items->pluck('activity_type')->toArray();
+            });
         $webcastActivities = WebCastActivity::whereNotIn('id', $usedIds)->pluck('content_title', 'id');
-        return view('Admin.wcresource.create', compact('webcastActivities'));
+        return view('Admin.wcresource.create', compact('webcastActivities', 'allreadyAddedButtons'));
     }
 
     /* ── STORE ── */
@@ -141,16 +150,29 @@ class WcResourceController extends Controller
     }
 
     /* ── EDIT ── */
-    public function edit(WebCastResource $webcastActivity)
+    public function edit($id)
     {
-        $activityType = $webcastActivity->activity_type;
-        $label        = $this->activityTypes[$activityType];
+        $id = decrypt($id);
+        $wcResourceId = WebCastActivity::findOrFail($id)?->id;
+        $wcResource = WebCastResource::where('webcast_activity_id', $wcResourceId)->first();
 
-        return view('Admin.wcresource.create', compact(
-            'webcast',
-            'webcastActivity',
-            'activityType',
-            'label'
+        $allreadyAddedButtons = WebCastResource::get()
+            ->groupBy('webcast_activity_id')
+            ->map(fn($items) => $items->pluck('activity_type')->toArray());
+
+        $webcastActivities = WebCastActivity::pluck('content_title', 'id');
+
+        $existingItems = WebCastResource::where('webcast_activity_id', $id)->get()->map(fn($i) => [
+            'activity_type' => $i->activity_type,
+            'button_type' => $i->upload_type,
+            'content' => $i->pdf_url ?? ($i->url ?? ''),
+        ]);
+
+        return view('Admin.wcresource.edit', compact(
+            'wcResource',
+            'webcastActivities',
+            'allreadyAddedButtons',
+            'existingItems'
         ));
     }
 

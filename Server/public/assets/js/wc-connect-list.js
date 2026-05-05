@@ -35,11 +35,13 @@
         if (!data || !data.data || data.data.length === 0) {
           dtTotal = 0;
           dtRender([]);
+          loader.addClass("d-none"); // 🔥 hide loader
           return;
         }
 
         dtTotal = data.total || 0;
         dtRender(data.data);
+        loader.addClass("d-none"); // 🔥 hide loader
       },
 
       error: function () {
@@ -54,7 +56,6 @@
       },
 
       complete: function () {
-        loader.addClass("d-none"); // 🔥 hide loader
         dtFetching = false;
       },
     });

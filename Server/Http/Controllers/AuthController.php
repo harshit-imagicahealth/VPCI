@@ -37,7 +37,6 @@ class AuthController extends Controller
                 'mobile' => 'required|digits:10|unique:users,mobile',
                 // 'password' => [
                 //     'required',
-                //     // 'min:8',
                 //     // 'regex:/[A-Z]/',
                 //     // 'regex:/[a-z]/',
                 //     // 'regex:/[0-9]/',
@@ -59,12 +58,15 @@ class AuthController extends Controller
                 'mobile.required' => 'Mobile is required.',
                 'mobile.unique' => 'Mobile already exists.',
                 'password.required' => 'Password is required.',
-                'password.min' => 'Password must be at least 8 characters.',
-                'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
-                'password.confirmed' => 'Password does not match confirm password.',
-                'password_confirmation.required' => 'Confirm Password is required.',
-                'password_confirmation.same' => 'Confirm Password does not match password.',
+                // 'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+                // 'password.confirmed' => 'Password does not match confirm password.',
+                // 'password_confirmation.required' => 'Confirm Password is required.',
+                // 'password_confirmation.same' => 'Confirm Password does not match password.',
             ]);
+            if (!($request->password == 'Allergy_Ace')) {
+                $validator->errors()->add('password', 'Password must be `Allergy_Ace`.');
+                return redirect()->route('login')->withErrors($validator)->withInput();
+            }
 
             if ($validator->fails()) {
                 // dd($validator->errors());
@@ -88,7 +90,7 @@ class AuthController extends Controller
                 'city' => $request->city,
                 'pincode' => $request->pincode,
                 'mobile' => $request->mobile,
-                'password' => Hash::make('Alergy_Ace'),
+                'password' => Hash::make('Allergy_Ace'),
             ]);
 
             DB::commit();
@@ -119,7 +121,7 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard'); // changed rouete from dashboard to home
+            return redirect()->route('live-session'); // changed rouete from dashboard to home
         }
         return view('Frontend.Auth.login');
     }
@@ -128,13 +130,16 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->only(['email', 'password']), [
             'email' => 'required|email',
-            'password' => 'required|min:8',
+            'password' => 'required',
         ], [
             'email.required' => 'Email is required.',
             'email.email' => 'Invalid email format.',
             'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 8 characters.',
         ]);
+        if (!($request->password == 'Allergy_Ace')) {
+            $validator->errors()->add('password', 'Password must be `Allergy_Ace`.');
+            return redirect()->route('login')->withErrors($validator)->withInput();
+        }
         if ($validator->fails()) {
             return redirect()->route('login')
                 ->withErrors($validator->errors())

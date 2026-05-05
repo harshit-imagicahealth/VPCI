@@ -18,19 +18,19 @@
             <div class="mb-4">
                 <div class="row align-items-start about-box w-100 h-100 align-items-center mx-auto">
                     <div class="col-md-12">
-                        <h2>About Airway Excellence Program</h2>
-                        <p class="text-muted">
+                        <h2>About ACE (Allergy & Immunotherapy Clinical Excellence Program)</h2>
+                        <p class="text-muted about-body-text">
                             ACE is a structured 3-month academic initiative featuring expert-led modules.
                             pre-learning material, and concise post-session summaries, delivered through a
                             dedicated
                             microsite.
                         </p>
-                        <p class="text-muted">
+                        <p class="text-muted about-body-text">
                             The program comprises 6 focused modules led by distinguished faculty, ensuring
                             clinically
                             relevant and evidence-based insights.
                         </p>
-                        <p class="text-muted">
+                        <p class="text-muted about-body-text">
                             Upon successful completion & assessment, participants will receive
                             <strong>certification from Vallabhbhai Patel Chest Institute (VPCI).</strong>
                         </p>

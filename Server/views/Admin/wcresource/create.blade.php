@@ -103,7 +103,7 @@
                             Select WebCast Activity<span class="fc-required">*</span>
                         </label>
                         <x-form.select2 name="webcast_activity_id" placeholder="Select WebCast Activity"
-                            :options="$webcastActivities" required :selected="old('webcast_activity_id', $webcast?->webcast_activity_id ?? '')" col-class="col-md-12" />
+                            :options="$webcastActivities" :disabled-options="[]" :selected="old('webcast_activity_id', $webcast?->webcast_activity_id ?? '')" required col-class="col-md-12" />
                     </div>
                 </div>
 
@@ -145,66 +145,59 @@
 <script>
     let index = 0;
     let selectedActivities = [];
+    let alreadyAddedButtons = @json($allreadyAddedButtons);
 
-    // ✅ Load default 1 card
+    // Load default 1 card
     $(document).ready(function() {
         addCard();
     });
 
-    // ✅ Add Card
+    // Add Card
     function addCard() {
-
-        let options = `
-                    <option value="">Select Button Name</option>
-                    <option value="pre_read">Pre-read</option>
-                    <option value="teaser">Teaser</option>
-                    <option value="view_agenda">View Agenda</option>
-                    <!-- <option value="assessment">Assessment</option> --!>
-                    <option value="summary">Summary</option>
-                    <option value="vimeo_url">Vimeo Url</option>
-                    <option value="custom">Custom</option>
-                `;
+        let buttons = @json(config('wc_connect.module_resource_options'));
+        let options = Object.entries(buttons).map(([key, value]) => {
+            return `<option value="${key}">${value}</option>`;
+        }).join('');
 
         let html = `
-                    <div class="button-card">
-                        <div class="row g-2">
+                <div class="button-card">
+                    <div class="row g-2">
 
-                            <!-- Activity -->
-                            <div class="col-md-4">
-                                <select name="items[${index}][activity_type]" 
-                                        class="fc-input activity-select" 
-                                        onchange="handleActivityChange(this)">
-                                    ${options}
-                                </select>
-                            </div>
-
-                            <!-- Button Type -->
-                            <div class="col-md-3">
-                                <select name="items[${index}][button_type]" 
-                                        class="fc-input type-select" 
-                                        onchange="changeType(this)">
-                                    <option value="">Select Type</option>
-                                    <option value="pdf">PDF Url</option>
-                                    <option value="url">URL</option>
-                                    <!-- <option value="file_upload">File Upload</option> --!>
-                                </select>
-                            </div>
-
-                            <!-- Content -->
-                            <div class="col-md-4 content-box">
-                                <span class="fc-hint">Select type first</span>
-                            </div>
-
-                            <!-- Delete -->
-                            <div class="col-md-1 text-end">
-                                <button type="button" class="btn-remove" onclick="removeCard(this)">
-                                    <i class="fa fa-trash"></i> Delete
-                                </button>
-                            </div>
-
+                        <!-- Activity -->
+                        <div class="col-md-4">
+                            <select name="items[${index}][activity_type]" 
+                                    class="fc-input activity-select" 
+                                    onchange="handleActivityChange(this)">
+                                ${options}
+                            </select>
                         </div>
+
+                        <!-- Button Type -->
+                        <div class="col-md-3">
+                            <select name="items[${index}][button_type]" 
+                                    class="fc-input type-select" 
+                                    onchange="changeType(this)">
+                                <option value="">Select Type</option>
+                                <option value="pdf">PDF Url</option>
+                                <option value="url">URL</option>
+                                <!-- <option value="file_upload">File Upload</option> --!>
+                            </select>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="col-md-4 content-box">
+                            <span class="fc-hint">Select type first</span>
+                        </div>
+
+                        <!-- Delete -->
+                        <div class="col-md-1 text-end">
+                            <button type="button" class="btn-remove" onclick="removeCard(this)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+
                     </div>
-                    `;
+                </div>`;
 
         $('#cardContainer').append(html);
         index++;
@@ -212,7 +205,15 @@
         updateDropdowns();
     }
 
-    // ✅ Handle Activity Selection
+    // on select module already added buttons option disable kerva mate change event fire
+    $('[name="webcast_activity_id"]').on('change', function() {
+        $('#cardContainer').html('');
+        index = 0;
+        selectedActivities = [];
+        addCard();
+    });
+
+    // Handle Activity Selection
     function handleActivityChange(el) {
 
         let newVal = $(el).val();
@@ -232,12 +233,14 @@
         updateDropdowns();
     }
 
-    // ✅ Disable selected options in other dropdowns
+    // Disable selected options in other dropdowns
     function updateDropdowns() {
 
         $('.activity-select').each(function() {
 
             let currentVal = $(this).val();
+            let selectedModule = $('[name="webcast_activity_id"]').val();
+            let disabledButtons = alreadyAddedButtons[Number(selectedModule)] || [];
 
             $(this).find('option').each(function() {
 
@@ -245,7 +248,8 @@
 
                 if (!val) return;
 
-                if (selectedActivities.includes(val) && val !== currentVal) {
+                if ((selectedActivities.includes(val) && val !== currentVal) || disabledButtons
+                    .includes(val)) {
                     $(this).prop('disabled', true);
                 } else {
                     $(this).prop('disabled', false);
@@ -256,7 +260,7 @@
         });
     }
 
-    // ✅ Change content based on type
+    // Change content based on type
     function changeType(el) {
 
         let type = $(el).val();
@@ -276,7 +280,7 @@
         container.html(html);
     }
 
-    // ✅ Remove card
+    // Remove card
     function removeCard(btn) {
 
         let select = $(btn).closest('.button-card').find('.activity-select');

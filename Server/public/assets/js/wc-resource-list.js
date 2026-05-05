@@ -35,26 +35,28 @@
         if (!data || !data.data || data.data.length === 0) {
           dtTotal = 0;
           dtRender([]);
+          loader.addClass("d-none"); // 🔥 hide loader
           return;
         }
 
         dtTotal = data.total || 0;
+        console.log(data);
         dtRender(data.data);
+        loader.addClass("d-none"); // 🔥 hide loader
       },
 
       error: function () {
         $("#dtBody").html(`
-                        <tr>
-                            <td colspan="9" class="dt-empty text-danger">
-                                <i class="fa fa-triangle-exclamation"></i>
-                                Something went wrong
-                            </td>
-                        </tr>
-                    `);
+                  <tr>
+                      <td colspan="4" class="dt-empty text-danger">
+                          <i class="fa fa-triangle-exclamation"></i>
+                          Something went wrong
+                      </td>
+                  </tr>
+                `);
       },
 
       complete: function () {
-        loader.addClass("d-none"); // 🔥 hide loader
         dtFetching = false;
       },
     });
@@ -65,68 +67,88 @@
     // console.log(rows);
     const start = (dtPage - 1) * dtPerPage;
     const body = document.getElementById("dtBody");
-
+    // All resource columns
+    const columns = [
+      "pre_read",
+      "teaser",
+      "view_agenda",
+      "summary",
+      "vimeo_url",
+    ];
     if (!rows || rows.length === 0) {
       body.innerHTML = `
-                    <tr>
-                        <td colspan="4" class="dt-empty">
-                            <i class="fa fa-video-slash"></i>
-                            No webcasts found
-                        </td>
-                    </tr>`;
-    } else {
-      body.innerHTML = rows
-        .map((r, i) => {
-          function resourceIcon(type) {
-            const item = r.resources;
+          <tr>
+              <td colspan="${3 + columns.length}" class="dt-empty">
+                  <i class="fa fa-video-slash"></i>
+                  No webcasts found
+              </td>
+          </tr>`;
+      return;
+    }
+    body.innerHTML = rows
+      .map((r, i) => {
+        // Icon render function
+        function resourceIcon(res) {
+          if (!res) return "-";
 
-            if (!item) return "-";
+          const type = res.activity_type_name || "Resource";
 
-            let link = item.pdf_url || item.url;
+          let link = res.upload_type === "pdf" ? res.pdf_url : res.url;
 
-            if (!link) return "-";
-
-            return `
-                            <a href="${link}" target="_blank" class="dt-action" title="${type}">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        `;
-          }
+          if (!link) return "-";
 
           return `
-                        <tr>
-                            <td>${start + i + 1}</td>
+                      <a href="${link}" target="_blank" class="dt-action" title="${type}">
+                          <i class="fa fa-eye"></i>
+                      </a>`;
+        }
 
-                            <!-- Activity Name -->
-                            <td>${r.activity?.activity_name ?? "-"}</td>
+        // Convert resources array → map
+        let resourceMap = {};
 
-                            <!-- Resources -->
-                            <td>${r.resources?.activity_type_name ?? "-"}</td>
-                            <td>${resourceIcon(r.activity?.activity_type)}</td>
-                            <!-- <td>${resourceIcon("teaser")}</td>
-                            <td>${resourceIcon("view_agenda")}</td>
-                            <td>${resourceIcon("summary")}</td> -->
+        if (Array.isArray(r.resources)) {
+          r.resources.forEach((res) => {
+            resourceMap[res.activity_type] = res;
+          });
+        }
 
-                            <!-- Actions -->
-                            <td>
-                                <div class="dt-action-wrap">
+        // Generate columns
+        let resourceColumns = columns
+          .map((type) => {
+            return `<td>
+                            <div class="dt-action-wrap">
+                                ${resourceMap[type] ? resourceIcon(resourceMap[type]) : "-"}
+                            </div>
+                        </td>`;
+          })
+          .join("");
 
-                                    <!-- <a href="${editUrl.replace(":id", r.encrypt_id)}" 
-                                    class="dt-action dt-action-edit">
-                                        <i class="fa fa-pen"></i>
-                                    </a> -->
+        return `
+                  <tr>
+                      <td>${start + i + 1}</td>
 
-                                    <button type="button" data-id="${r.encrypt_id}" 
-                                        class="dt-action dt-action-delete delete-btn">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
+                      <!-- Activity Name -->
+                      <td>${r.activity?.activity_name ?? "-"}</td>
 
-                                </div>
-                            </td>
-                        </tr>`;
-        })
-        .join("");
-    }
+                      <!-- Resource Columns -->
+                      ${resourceColumns}
+
+                      <!-- Actions -->
+                      <td>
+                          <div class="dt-action-wrap">
+                              <a href="${editUrl.replace(":id", r.encrypt_id)}" 
+                                  class="dt-action dt-action-edit">
+                                  <i class="fa fa-pen"></i>
+                              </a>
+                              <button type="button" data-id="${r.encrypt_id}" 
+                                  class="dt-action dt-action-delete delete-btn">
+                                  <i class="fa fa-trash"></i>
+                              </button>
+                          </div>
+                      </td>
+                  </tr>`;
+      })
+      .join("");
 
     const to = Math.min(start + dtPerPage, dtTotal);
     document.getElementById("dtInfo").textContent = dtTotal
@@ -236,15 +258,15 @@
   }
 
   /* ── CSV Export (current filtered set, server-side) ── */
-  function dtExportCSV() {
-    const params = new URLSearchParams({
-      search: dtQuery,
-      sortCol: dtSortKey,
-      sortDir: dtSortDirStr,
-      export: "csv",
-    });
-    // window.location.href = `${exportUrl}?${params}`;
-  }
+  // function dtExportCSV() {
+  //   const params = new URLSearchParams({
+  //     search: dtQuery,
+  //     sortCol: dtSortKey,
+  //     sortDir: dtSortDirStr,
+  //     export: "csv",
+  //   });
+  //   // window.location.href = `${exportUrl}?${params}`;
+  // }
 
   /* ── Delete script swal model alert ── */
 
